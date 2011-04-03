@@ -58,3 +58,13 @@ def create_image(url):
 def get_image(slug):
     return image_bucket.get_binary(slug)
 
+def add_thumb(slug,size,cap):
+    created = datetime.now().strftime(DTFORMAT)
+    image = get_image(slug)
+    data = {
+        size : size,
+        cap : cap,
+        created : created,
+        }
+    thumb = thumb_bucket.new_binary(cap,dumps(data)).store()
+    image.add_link(thumb).store()

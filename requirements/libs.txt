@@ -16,3 +16,4 @@ requirements/src/uuid-1.30.tar.gz
 requirements/src/Imaging-1.1.7.tar.gz
 requirements/src/celery-2.2.1.tar.gz
 requirements/src/django-celery-2.2.1.tar.gz
+requirements/src/poster-0.7.0.tar.gz
