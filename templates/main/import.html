@@ -5,6 +5,9 @@
 {% if html %}
 
 <form action="." method="post">
+<b>Tags</b><br />
+<input type="text" name="tags" style="width:100%" /><br />
+
 <table>
 {% for image in images %}
 <tr>
@@ -25,6 +28,9 @@
 {% if url %}
 <form action="." method="post">
 <input type="hidden" name="url" value="{{url}}" />
+<b>Tags</b><br />
+<input type="text" name="tags"  style="width:100%" /><br />
+
 <input type="submit" value="ingest"/>
 </form>
 <img src="{{url}}" />

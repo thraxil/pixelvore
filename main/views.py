@@ -7,6 +7,7 @@ from utils import parse_tags
 from restclient import GET
 import html5lib
 from html5lib import treebuilders
+import re
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -27,6 +28,19 @@ def index(request):
     limit = int(request.GET.get('limit','50'))
     return dict(images=models.get_all_images(limit))
 
+def get_width(i):
+    if i.has_key('width'):
+        return width_parse(i['width'])
+    else:
+        return 1000
+
+def width_parse(w):
+    w = re.sub(r'\D','',w)
+    try:
+        return int(w)
+    except ValueError:
+        return 0
+
 @rendered_with("main/import.html")
 def import_url(request):
     if request.method == "GET":
@@ -40,7 +54,7 @@ def import_url(request):
         elif resp['content-type'].startswith('text/html'):
             parser=html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
             tree = parser.parse(data)
-            images = [i for i in tree.findAll('img') if int(i['width']) > 75]
+            images = [i for i in tree.findAll('img') if get_width(i) > 75]
             return dict(html=True,images=images)
         else:
             return HttpResponse("unknown content-type: %s" % resp['content-type'])
