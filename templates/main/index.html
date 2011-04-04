@@ -3,8 +3,15 @@
 {% block content %}
 
 {% for image in images %}
+{% with image.get_full_url as imgurl %}
+{% if imgurl %}
+<div class="image" id="image-{{image.slug}}">
 <img src="{{image.get_full_url}}"/>
-<br />
+</div>
+{% else %}
+<p>{{image.url}} is being processed...</p>
+{% endif %}
+{% endwith %}
 {% endfor %}
 
 {% endblock %}

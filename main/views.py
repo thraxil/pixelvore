@@ -4,6 +4,9 @@ from django.shortcuts import render_to_response
 import models
 import tasks
 from utils import parse_tags
+from restclient import GET
+import html5lib
+from html5lib import treebuilders
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -27,14 +30,32 @@ def index(request):
 def import_url(request):
     if request.method == "GET":
         url = request.GET.get('url','')
-        # TODO: instead of just displaying it,
-        # we ought to fetch and check the content-type
-        # and display form to pick images if it's html
-        return dict(url=url)
+        resp,data = GET(url,resp=True)
+        if resp['status'] != '200':
+            return HttpResponse("couldn't fetch it. sorry")
+
+        if resp['content-type'].startswith('image/'):
+            return dict(url=url)
+        elif resp['content-type'].startswith('text/html'):
+            parser=html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
+            tree = parser.parse(data)
+            images = [i for i in tree.findAll('img') if int(i['width']) > 75]
+            return dict(html=True,images=images)
+        else:
+            return HttpResponse("unknown content-type: %s" % resp['content-type'])
     if request.method == "POST":
+        urls = []
         url = request.POST.get('url','')
-        if url == '':
-            return HttpResponse("no url")
-        slug = models.create_image(url=url)
-        tasks.ingest_image.delay(slug,url)
+        if url != '':
+            urls = [url]
+        else:
+            # probably an html page submission
+            for k in request.POST.keys():
+                if k.startswith("image_"):
+                    url = k[len("image_"):]
+                    urls.append(url)
+
+        for url in urls:
+            slug = models.create_image(url=url)
+            tasks.ingest_image.delay(slug,url)
         return HttpResponseRedirect("/")

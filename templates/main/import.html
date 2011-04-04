@@ -2,6 +2,26 @@
 
 {% block content %}
 
+{% if html %}
+
+<form action="." method="post">
+<table>
+{% for image in images %}
+<tr>
+<td valign="top"><input type="checkbox" name="image_{{image.src}}" /></td>
+<td>
+<img src="{{image.src}}" />
+</td>
+</tr>
+{% endfor %}
+</table>
+<input type="submit" value="ingest"/>
+</form>
+
+
+
+
+{% else %}
 {% if url %}
 <form action="." method="post">
 <input type="hidden" name="url" value="{{url}}" />
@@ -9,10 +29,13 @@
 </form>
 <img src="{{url}}" />
 
+
+
 {% else %}
 <p>you need an image to import.</p>
 <p><a href="javascript:window.location='http://127.0.0.1:8000/import/?url='+escape(window.location);">bookmarklet</a></p>
 <p>TODO: this should be an image upload form w/ drag+drop support.</p>
+{% endif %}
 {% endif %}
 
 {% endblock %}

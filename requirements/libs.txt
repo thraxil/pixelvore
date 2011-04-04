@@ -17,3 +17,5 @@ requirements/src/Imaging-1.1.7.tar.gz
 requirements/src/celery-2.2.1.tar.gz
 requirements/src/django-celery-2.2.1.tar.gz
 requirements/src/poster-0.7.0.tar.gz
+requirements/src/html5lib-0.90.tar.gz
+requirements/src/BeautifulSoup-3.2.0.tar.gz
