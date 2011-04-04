@@ -24,7 +24,8 @@ class rendered_with(object):
 
 @rendered_with("main/index.html")
 def index(request):
-    return dict(images=models.get_all_images())
+    limit = int(request.GET.get('limit','50'))
+    return dict(images=models.get_all_images(limit))
 
 @rendered_with("main/import.html")
 def import_url(request):

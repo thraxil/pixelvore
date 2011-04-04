@@ -60,6 +60,9 @@ class Image(object):
     def get_full_url(self):
         return self.get_thumb_url("full")
 
+    def get_stream_url(self):
+        return self.get_thumb_url("1000")
+
 class Thumb(object):
     def __init__(self,riakobj):
         self.riakobj = riakobj
@@ -68,7 +71,7 @@ class Thumb(object):
         self.created = datetime.strptime(d['created'],DTFORMAT)
         self.cap = d['cap']
     def url(self):
-        return settings.TAHOE_BASE + "file/" + urllib2.quote(self.cap) + "/?@@named=%s.jpg" % str(self.size)
+        return settings.PUBLIC_TAHOE_BASE + "file/" + urllib2.quote(self.cap) + "/?@@named=%s.jpg" % str(self.size)
 
 
 def slugify(v):
@@ -108,9 +111,14 @@ def create_image(url):
 def get_image(slug):
     return image_bucket.get_binary(slug)
 
-def get_all_images():
+def get_all_images(limit=None):
     index = index_bucket.get_binary("image-index")
-    return [Image(i) for i in [img.get_binary() for img in index.get_links()] if i.exists()]
+    images = [Image(i) for i in [img.get_binary() for img in index.get_links()] if i.exists()]
+    images.sort(key=lambda x: x.created)
+    images.reverse()
+    if limit is None:
+        limit = len(images)
+    return images[:limit]
 
 def add_thumb(slug,size,cap):
     created = datetime.now().strftime(DTFORMAT)

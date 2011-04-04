@@ -82,6 +82,7 @@ CELERYD_CONCURRENCY = 4
 TAHOE_BASE = "http://localhost:3456/"
 TAHOE_BASE_CAP = "URI:DIR2:tnjkufdxv7lk6zhxnt5jvbc7q4lcyovifvyt3lcd6c2dbpweqzo72x5fnefnui5snwx2qfeui5u46q"
 TAHOE_UPLOAD_BASE = "http://localhost:3456/uri/URI%3ADIR2%3Atnjkufdxv7lk6zhxnt5jvbc7q4%3Alcyovifvyt3lcd6c2dbpweqzo72x5fnefnui5snwx2qfeui5u46q/"
+PUBLIC_TAHOE_BASE = "http://tahoe.ccnmtl.columbia.edu/"
 
 THUMB_SIZES = (
     ("full",""),

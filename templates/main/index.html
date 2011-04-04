@@ -6,7 +6,7 @@
 {% with image.get_full_url as imgurl %}
 {% if imgurl %}
 <div class="image" id="image-{{image.slug}}">
-<img src="{{image.get_full_url}}"/>
+<img src="{{image.get_stream_url}}"/>
 </div>
 {% else %}
 <p>{{image.url}} is being processed...</p>
