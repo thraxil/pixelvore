@@ -19,26 +19,18 @@ class rendered_with(object):
 
         return rendered_func
 
+@rendered_with("main/index.html")
 def index(request):
-    return HttpResponse("here")
+    return dict()
 
+@rendered_with("main/import.html")
 def import_url(request):
     if request.method == "GET":
         url = request.GET.get('url','')
         # TODO: instead of just displaying it,
         # we ought to fetch and check the content-type
         # and display form to pick images if it's html
-        return HttpResponse("""
-<html>
-<body>
-<form action="." method="post">
-<input type="hidden" name="url" value="%s" />
-<input type="submit" value="ingest"/>
-</form>
-<img src="%s" />
-</body>
-</html>
-""" % (url,url))
+        return dict(url=url)
     if request.method == "POST":
         url = request.POST.get('url','')
         if url == '':

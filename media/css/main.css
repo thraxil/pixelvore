@@ -177,13 +177,13 @@ img, img a
 {
 	display: block;
 	width: 900px;
-	height: 100px;
+	height: 0px;
 	min-width: 900px;
 	overflow: hidden;
 	margin: 0;
 	padding: 0;
 	border: 0;
-	background: #fffbc7 url('../img/bg_header.jpg') left top no-repeat;
+//	background: #fffbc7 url('../img/bg_header.jpg') left top no-repeat;
 }
 
 #header #logo_project
@@ -207,21 +207,6 @@ img, img a
 	padding: 0;
 	border: 0;
 	background: transparent url('../img/logo_project.jpg') left center no-repeat;
-}
-
-#header #logo_ccnmtl
-{
-	display: block;
-	clear: right;
-	float: right;
-	width: 146px;
-	height: 33px;
-	overflow: hidden;
-	/* margin: 34px 10px 0 0;*/
-	margin: 0 10px 0 0;
-	padding: 0;
-	border: 0;
-	background: transparent url('../img/logo_ccnmtl.gif') left top no-repeat;
 }
 
 #header #logo_ccnmtl a
@@ -276,7 +261,7 @@ img, img a
 #primarynav
 {
 	width: 900px;
-	height: 30px;
+	height: 0px;
 	min-width: 900px;
 	clear: both;
 	margin: 0;
