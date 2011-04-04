@@ -48,7 +48,8 @@ class Image(object):
         if self._thumbs is not None:
             return self._thumbs
 
-        self._thumbs = [Thumb(t.get_binary()) for t in self._riakobj.get_links() if t.get().exists()]
+        self._thumbs = [Thumb(t.get_binary()) for t in self._riakobj.get_links() \
+                            if t.get().exists() and t.get_bucket() == THUMB_BUCKET_NAME]
         return self._thumbs
 
     def get_thumb_url(self,size):
@@ -97,7 +98,7 @@ def deindex_item(idx,item):
     index = index_bucket.get_binary(idx + "-index")
     index.remove_link(item).store()
 
-def create_image(url):
+def create_image(url,tags):
     created = datetime.now().strftime(DTFORMAT)
     slug = str(uuid.uuid4())
     data = {
@@ -106,12 +107,28 @@ def create_image(url):
         }
     image = image_bucket.new_binary(slug,dumps(data)).store()
     index_item('image',image)
+    tagindex = index_bucket.get_binary('tag-index')
+    for tag in tags:
+        if not tag:
+            continue
+        t = tag_bucket.get_binary(slugify(tag))
+        if not t.exists():
+            t = tag_bucket.new(slugify(tag),tag).store()
+            t.add_link(image).store()
+            image.add_link(t).store()
+            tagindex.add_link(t).store()
+        else:
+            image.add_link(t).store()
+            t.add_link(image).store()
+            
     return slug
 
 def get_image(slug):
     return image_bucket.get_binary(slug)
 
 def get_all_images(limit=None):
+    # TODO: sort the images by date without having to instantiate objects
+    # ie, use the map-reduce framework
     index = index_bucket.get_binary("image-index")
     images = [Image(i) for i in [img.get_binary() for img in index.get_links()] if i.exists()]
     images.sort(key=lambda x: x.created)

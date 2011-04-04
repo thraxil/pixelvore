@@ -70,7 +70,8 @@ def import_url(request):
                     url = k[len("image_"):]
                     urls.append(url)
 
+        tags = parse_tags(request.POST.get('tags',''))
         for url in urls:
-            slug = models.create_image(url=url)
+            slug = models.create_image(url=url,tags=tags)
             tasks.ingest_image.delay(slug,url)
         return HttpResponseRedirect("/")

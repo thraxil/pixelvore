@@ -260,15 +260,14 @@ img, img a
 /* ---- Primary navigation block elements ---------- */
 #primarynav
 {
-	width: 900px;
-	height: 0px;
-	min-width: 900px;
+	width: 96%;
+	height: 30px;
 	clear: both;
 	margin: 0;
 	padding: 0;
 	border: 0;
-	border-top: 1px solid #fc6;
-	background-color: #c30;
+	border-bottom: 1px solid #000;
+	background-color: #fff;
 }
 
 #primarynav div.encase
@@ -304,18 +303,18 @@ img, img a
 	margin: 3px;
 	padding: 0 0.5em;
 	border: 0;
-	background-color: #fc6;
+	background-color: #fff;
 	line-height: 24px;
 }
 
 #primarynav li:hover
 {
-	background-color: #fc9;
+	background-color: #ccc;
 }
 
 #primarynav a
 {
-	color: #900;
+	color: #000;
 	text-decoration: none;
 }
 
@@ -817,3 +816,7 @@ body.fluid #content
 	border: 0;
 }
 
+.image 
+{
+padding-bottom: 20px;
+}
