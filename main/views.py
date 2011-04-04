@@ -21,7 +21,7 @@ class rendered_with(object):
 
 @rendered_with("main/index.html")
 def index(request):
-    return dict()
+    return dict(images=models.get_all_images())
 
 @rendered_with("main/import.html")
 def import_url(request):

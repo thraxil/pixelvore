@@ -9,6 +9,7 @@ from riak import RiakMapReduce
 from datetime import datetime
 import re
 import uuid
+import urllib2
 
 HOST = settings.RIAK_HOST
 PORT = settings.RIAK_PORT
@@ -29,6 +30,47 @@ index_bucket = client.bucket(INDEX_BUCKET_NAME)
 
 DTFORMAT = "%Y-%m-%dT%H:%M:%S"
 
+class Image(object):
+    """ a little wrapper to make things easier to deal
+    with from the templates and the rest of django """
+    def __init__(self,riakobj):
+        self._riakobj = riakobj
+        self.slug = riakobj.get_key()
+        d = loads(riakobj.get_data())
+        self.url = d['url']
+        self.created = datetime.strptime(d['created'],DTFORMAT)
+        self._thumbs = None
+
+    def get_absolute_url(self):
+        return "/image/%s/" % self.slug
+
+    def thumbs(self):
+        if self._thumbs is not None:
+            return self._thumbs
+
+        self._thumbs = [Thumb(t.get_binary()) for t in self._riakobj.get_links() if t.get().exists()]
+        return self._thumbs
+
+    def get_thumb_url(self,size):
+        for t in self.thumbs():
+            if t.size == size:
+                return t.url()
+        return None
+
+    def get_full_url(self):
+        return self.get_thumb_url("full")
+
+class Thumb(object):
+    def __init__(self,riakobj):
+        self.riakobj = riakobj
+        d = loads(riakobj.get_data())
+        self.size = d['size']
+        self.created = datetime.strptime(d['created'],DTFORMAT)
+        self.cap = d['cap']
+    def url(self):
+        return settings.TAHOE_BASE + "file/" + urllib2.quote(self.cap) + "/?@@named=%s.jpg" % str(self.size)
+
+
 def slugify(v):
     return re.sub(r'[^A-Za-z0-9]',':',v)
 
@@ -40,10 +82,10 @@ def delete_everything():
     """ for clearing things out """
     imgindex = index_bucket.get_binary("image-index")
     for img in imgindex.get_links():
-        imgindex.remove_link(img).store()
-        img.delete()
-        
-
+        i = img.get_binary()
+        imgindex.remove_link(i).store()
+        i.delete()
+ 
 def index_item(idx,item):
     index = index_bucket.get_binary(idx + "-index")
     index.add_link(item).store()
@@ -66,13 +108,20 @@ def create_image(url):
 def get_image(slug):
     return image_bucket.get_binary(slug)
 
+def get_all_images():
+    index = index_bucket.get_binary("image-index")
+    return [Image(i) for i in [img.get_binary() for img in index.get_links()] if i.exists()]
+
 def add_thumb(slug,size,cap):
     created = datetime.now().strftime(DTFORMAT)
     image = get_image(slug)
     data = {
-        size : size,
-        cap : cap,
-        created : created,
+        'size' : size,
+        'cap' : cap,
+        'created' : created,
         }
-    thumb = thumb_bucket.new_binary(cap,dumps(data)).store()
-    image.add_link(thumb).store()
+    key = str(uuid.uuid4())
+    thumb = thumb_bucket.new_binary(key,dumps(data))
+    thumb.store()
+    image.add_link(thumb)
+    image.store()
