@@ -13,6 +13,7 @@ STATICMEDIA_MOUNTS = (
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
+RIAK_HOST = 184.106.207.37
 
 try:
     from local_settings import *
