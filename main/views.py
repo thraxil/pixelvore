@@ -37,6 +37,10 @@ def tag(request,tag):
     return dict(images=models.get_tag_images(tag),
                 tag=tag)
 
+@rendered_with("main/image.html")
+def image(request,slug):
+    return dict(image=models.get_image_obj(slug))
+
 
 def get_width(i):
     if i.has_key('width'):

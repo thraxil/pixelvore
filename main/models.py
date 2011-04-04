@@ -64,6 +64,9 @@ class Image(object):
     def get_stream_url(self):
         return self.get_thumb_url("1000")
 
+    def tags(self):
+        return [t.get_key() for t in self._riakobj.get_links() if t.get().exists() and t.get_bucket() == TAG_BUCKET_NAME]
+
 class Thumb(object):
     def __init__(self,riakobj):
         self.riakobj = riakobj
@@ -71,10 +74,7 @@ class Thumb(object):
         self.size = d['size']
         self.created = datetime.strptime(d['created'],DTFORMAT)
         self.cap = d['cap']
-        if d.has_key('ext'):
-            self.ext = d['ext']
-        else:
-            self.ext = ".jpg"
+        self.ext = d.get('ext','.jpg')
     def url(self):
         return settings.PUBLIC_TAHOE_BASE + "file/" + urllib2.quote(self.cap) + "/?@@named=%s%s" % (str(self.size),self.ext)
 
@@ -129,6 +129,9 @@ def create_image(url,tags):
 
 def get_image(slug):
     return image_bucket.get_binary(slug)
+
+def get_image_obj(slug):
+    return Image(get_image(slug))
 
 def get_all_images(limit=None):
     # TODO: sort the images by date without having to instantiate objects
