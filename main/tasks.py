@@ -82,6 +82,7 @@ def upload_thumb(slug,tmpfilename,size):
     source_file.close()
 
     print cap
-    models.add_thumb(slug,size,cap)
+    (_p,ext) = os.path.splitext(tmpfilename)
+    models.add_thumb(slug,size,cap,ext)
 
 

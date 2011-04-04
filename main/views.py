@@ -28,6 +28,16 @@ def index(request):
     limit = int(request.GET.get('limit','50'))
     return dict(images=models.get_all_images(limit))
 
+@rendered_with("main/tag_index.html")
+def tag_index(request):
+    return dict(tags=models.get_all_tags())
+
+@rendered_with("main/tag.html")
+def tag(request,tag):
+    return dict(images=models.get_tag_images(tag),
+                tag=tag)
+
+
 def get_width(i):
     if i.has_key('width'):
         return width_parse(i['width'])

@@ -71,8 +71,12 @@ class Thumb(object):
         self.size = d['size']
         self.created = datetime.strptime(d['created'],DTFORMAT)
         self.cap = d['cap']
+        if d.has_key('ext'):
+            self.ext = d['ext']
+        else:
+            self.ext = ".jpg"
     def url(self):
-        return settings.PUBLIC_TAHOE_BASE + "file/" + urllib2.quote(self.cap) + "/?@@named=%s.jpg" % str(self.size)
+        return settings.PUBLIC_TAHOE_BASE + "file/" + urllib2.quote(self.cap) + "/?@@named=%s%s" % (str(self.size),self.ext)
 
 
 def slugify(v):
@@ -137,13 +141,28 @@ def get_all_images(limit=None):
         limit = len(images)
     return images[:limit]
 
-def add_thumb(slug,size,cap):
+def get_all_tags():
+    tagindex = index_bucket.get_binary('tag-index')
+    tags = [str(t.get().get_data()) for t in tagindex.get_links() if t.get().exists()]
+    tags.sort(key=str.lower)
+    return tags
+
+
+def get_tag_images(tag):
+    t = tag_bucket.get_binary(tag)
+    if not t.exists():
+        return []
+
+    return [Image(i.get_binary()) for i in t.get_links() if i.get_bucket() == IMAGE_BUCKET_NAME and i.get().exists()]
+
+def add_thumb(slug,size,cap,ext):
     created = datetime.now().strftime(DTFORMAT)
     image = get_image(slug)
     data = {
         'size' : size,
         'cap' : cap,
         'created' : created,
+        'ext' : ext,
         }
     key = str(uuid.uuid4())
     thumb = thumb_bucket.new_binary(key,dumps(data))
