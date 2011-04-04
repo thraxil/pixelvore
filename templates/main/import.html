@@ -39,7 +39,7 @@
 
 {% else %}
 <p>you need an image to import.</p>
-<p><a href="javascript:window.location='http://127.0.0.1:8000/import/?url='+escape(window.location);">bookmarklet</a></p>
+<p><a href="javascript:window.location='http://{{request.get_host}}/import/?url='+escape(window.location);">bookmarklet</a></p>
 <p>TODO: this should be an image upload form w/ drag+drop support.</p>
 {% endif %}
 {% endif %}
