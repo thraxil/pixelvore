@@ -36,6 +36,14 @@ def create_indices():
     index_bucket.new_binary('image-index',"{}").store()
     index_bucket.new_binary('tag-index',"{}").store()
 
+def delete_everything():
+    """ for clearing things out """
+    imgindex = index_bucket.get_binary("image-index")
+    for img in imgindex.get_links():
+        imgindex.remove_link(img).store()
+        img.delete()
+        
+
 def index_item(idx,item):
     index = index_bucket.get_binary(idx + "-index")
     index.add_link(item).store()
