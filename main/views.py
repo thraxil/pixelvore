@@ -45,6 +45,8 @@ def width_parse(w):
 def import_url(request):
     if request.method == "GET":
         url = request.GET.get('url','')
+        if not url:
+            return dict()
         resp,data = GET(url,resp=True)
         if resp['status'] != '200':
             return HttpResponse("couldn't fetch it. sorry")
