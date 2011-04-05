@@ -84,8 +84,12 @@ class Thumb(object):
         return settings.PUBLIC_TAHOE_BASE + "file/" + urllib2.quote(self.cap) + "/?@@named=%s%s" % (str(self.size),self.ext)
 
 
-def slugify(v):
-    return re.sub(r'[^A-Za-z0-9]',':',v)
+def slugify(title=""):
+    title = title.strip().lower()
+    slug = re.sub(r"[\W\-]+","-",title)
+    slug = re.sub(r"^\-+","",slug)
+    slug = re.sub(r"\-+$","",slug)
+    return slug
 
 def create_indices():
     index_bucket.new_binary('image-index',"{}").store()
@@ -126,9 +130,13 @@ def create_image(url,tags):
     for tag in tags:
         if not tag:
             continue
-        t = tag_bucket.get_binary(slugify(tag))
+        tagslug = slugify(tag)
+        if not tagslug:
+            # can't tag just punctuation or spaces
+            continue
+        t = tag_bucket.get_binary(tagslug)
         if not t.exists():
-            t = tag_bucket.new(slugify(tag),tag).store()
+            t = tag_bucket.new(tagslug,tag).store()
             t.add_link(image).store()
             image.add_link(t).store()
             tagindex.add_link(t).store()
@@ -157,8 +165,8 @@ def get_all_images(limit=None):
 
 def get_all_tags():
     tagindex = index_bucket.get_binary('tag-index')
-    tags = [str(t.get().get_data()) for t in tagindex.get_links() if t.get().exists()]
-    tags.sort(key=str.lower)
+    tags = [dict(tag=str(t.get().get_data()),slug=t.get_key()) for t in tagindex.get_links() if t.get().exists()]
+    tags.sort(key=lambda x: x['tag'].lower())
     return tags
 
 
