@@ -49,6 +49,23 @@ class Image(object):
     def get_absolute_url(self):
         return "/image/%s/" % self.slug
 
+    def as_json(self):
+        return dict(
+            slug = self.slug,
+            url = self.url,
+            created = loads(self._riakobj.get_data())['created'],
+            tags = self.tags_json(),
+            thumbs = self.thumbs_json(),
+            )
+
+    def tags_json(self):
+        return [t.get().get_data() for t in self._riakobj.get_links() if t.get().exists() and t.get_bucket() == TAG_BUCKET_NAME]
+
+    def thumbs_json(self):
+        thumbs = [Thumb(t.get_binary()) for t in self._riakobj.get_links() \
+                      if t.get().exists() and t.get_bucket() == THUMB_BUCKET_NAME]
+        return [t.as_json() for t in thumbs]
+
     def thumbs(self):
         if self._thumbs is not None:
             return self._thumbs
@@ -74,7 +91,7 @@ class Image(object):
 
 class Thumb(object):
     def __init__(self,riakobj):
-        self.riakobj = riakobj
+        self._riakobj = riakobj
         d = loads(riakobj.get_data())
         self.size = d['size']
         self.created = datetime.strptime(d['created'],DTFORMAT)
@@ -83,6 +100,12 @@ class Thumb(object):
     def url(self):
         return settings.PUBLIC_TAHOE_BASE + "file/" + urllib2.quote(self.cap) + "/?@@named=%s%s" % (str(self.size),self.ext)
 
+    def as_json(self):
+        return dict(size=self.size,
+                    cap=self.cap,
+                    ext=self.ext,
+                    created = loads(self._riakobj.get_data())['created'],
+                    )
 
 def slugify(title=""):
     title = title.strip().lower()
@@ -261,3 +284,12 @@ def get_pages(limit=10,offset=0):
         pg = page_bucket.get(str(p)).get_data()
         yield pg
         
+def dump_everything():
+    images = []
+    for ilink in index_bucket.get("image-index").get_links():
+        img = ilink.get()
+        if not img.exists():
+            continue
+        image = Image(img)
+        images.append(image.as_json())
+    return dumps({'images' : images})
