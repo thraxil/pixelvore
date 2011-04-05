@@ -1,6 +1,6 @@
 body
 {
-	min-width: 920px;
+	min-width: 1020px;
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -163,8 +163,8 @@ img, img a
 
 #container
 {
-	width: 900px;
-	min-width: 900px;
+	width: 1040px;
+	min-width: 1040px;
 	margin: 0 auto;
 	padding: 0;
 	border: 1px solid #999;
@@ -176,9 +176,9 @@ img, img a
 #header
 {
 	display: block;
-	width: 900px;
+	width: 1040px;
 	height: 0px;
-	min-width: 900px;
+	min-width: 1040px;
 	overflow: hidden;
 	margin: 0;
 	padding: 0;
@@ -272,7 +272,7 @@ img, img a
 
 #primarynav div.encase
 {
-	width: 900px;
+	width: 1040px;
 	height: 30px;
 }
 
@@ -366,8 +366,8 @@ img, img a
 #pagebody
 {
 	display: block;
-	width: 900px;
-	min-width: 900px;
+	width: 1040px;
+	min-width: 1040px;
 	clear: both;
 	margin: 0;
 	padding: 1em 0 0 0;
@@ -583,7 +583,7 @@ img, img a
 {
 	display: block;
 	float: none;
-	width: 900px;
+	width: 1040px;
 }
 
 .pageheader
@@ -595,9 +595,9 @@ img, img a
 #footer
 {
 	display: block;
-	width: 900px;
+	width: 1040px;
 		height: 30px;
-	min-width: 900px;
+	min-width: 1040px;
 	clear: both;
 	margin: 0;
 	padding: 0;
@@ -631,16 +631,6 @@ img, img a
 {
 	display: none;
 }
-
-/* resizable textarea styles */
-textarea.resizable {width: 90%; height: 90%;}
-
-.resize-handle {
-               cursor: se-resize;
-               position: absolute;
-               float: right;
-}
-
 
 /* styles for hs.js */
 .hs-show { display: block; }
