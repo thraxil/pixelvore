@@ -596,13 +596,13 @@ img, img a
 {
 	display: block;
 	width: 1040px;
-		height: 30px;
+	height: 30px;
 	min-width: 1040px;
 	clear: both;
 	margin: 0;
 	padding: 0;
 	border: 0;
-		border-top: 1px solid #ccc;
+	border-top: 1px solid #ccc;
 	background-color: #fff;
 }
 

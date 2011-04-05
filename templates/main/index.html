@@ -3,10 +3,10 @@
 {% block content %}
 
 {% for image in images %}
-{% with image.get_full_url as imgurl %}
+{% with image.thumb_url as imgurl %}
 {% if imgurl %}
 <div class="image" id="image-{{image.slug}}">
-<a href="{{image.get_absolute_url}}"><img src="{{image.get_stream_url}}"
+<a href="/image/{{image.slug}}/"><img src="{{image.thumb_url}}"
 					  border="0"/></a>
 </div>
 {% else %}

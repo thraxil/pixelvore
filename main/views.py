@@ -25,8 +25,9 @@ class rendered_with(object):
 
 @rendered_with("main/index.html")
 def index(request):
-    limit = int(request.GET.get('limit','50'))
-    return dict(images=models.get_all_images(limit))
+    limit = int(request.GET.get('limit','10'))
+    offset = int(request.GET.get('offset','0'))
+    return dict(images=models.get_pages(limit,offset))
 
 @rendered_with("main/tag_index.html")
 def tag_index(request):
