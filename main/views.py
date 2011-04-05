@@ -8,6 +8,7 @@ from restclient import GET
 import html5lib
 from html5lib import treebuilders
 import re
+import urlparse
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -56,6 +57,12 @@ def width_parse(w):
     except ValueError:
         return 0
 
+def fix_base_path(image,base_url):
+    if not image['src'].startswith("http://"):
+        image['src'] = urlparse.urljoin(base_url,image['src'])
+    return image
+        
+
 @rendered_with("main/import.html")
 def import_url(request):
     if request.method == "GET":
@@ -71,7 +78,7 @@ def import_url(request):
         elif resp['content-type'].startswith('text/html'):
             parser=html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
             tree = parser.parse(data)
-            images = [i for i in tree.findAll('img') if get_width(i) > 75]
+            images = [fix_base_path(i,url) for i in tree.findAll('img') if get_width(i) > 75]
             return dict(html=True,images=images)
         else:
             return HttpResponse("unknown content-type: %s" % resp['content-type'])

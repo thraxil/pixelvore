@@ -189,6 +189,27 @@ def add_thumb(slug,size,cap,ext):
         # each time an image is added
         update_pages()
 
+def clear_orphan_images():
+    imageindex = index_bucket.get_binary('image-index')
+    for ilink in imageindex.get_links():
+        if ilink.get().exists():
+            img = ilink.get()
+            image = Image(img)
+            url = image.get_stream_url()
+            if not url:
+                imageindex.remove_link(ilink).store()
+                img.delete()
+        else:
+            imageindex.remove_link(ilink.get()).store()
+    delete_all_pages()
+    update_pages()
+            
+def delete_all_pages():
+    for i in range(int(index_bucket.get_binary("current-page").get_data())):
+        p = page_bucket.get(str(i)).delete()
+    index_bucket.get_binary("current-page").set_data("0").store()    
+
+
 def update_pages():
     imageindex = index_bucket.get_binary('image-index')
 
@@ -210,10 +231,12 @@ def make_page_image(i,image):
                             dict(slug=image.slug,
                                  thumb_url=image.get_stream_url())
                             ).store()
-    p.set_data(
-        dict(slug=image.slug,
-             thumb_url=image.get_stream_url())
-        ).store()
+    else:
+        p.set_data(
+            dict(slug=image.slug,
+                 thumb_url=image.get_stream_url())
+            ).store()
+
     cp = int(index_bucket.get_binary("current-page").get_data())
     if i > cp:
         index_bucket.get_binary("current-page").set_data(str(i)).store()
@@ -223,7 +246,7 @@ def get_current_page():
 
 def get_pages(limit=10,offset=0):
     current_page = get_current_page()
-    pages = range(current_page)
+    pages = range(current_page + 1)
     pages.reverse()
     for p in pages[offset:limit+offset]:
         pg = page_bucket.get(str(p)).get_data()
