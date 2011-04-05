@@ -33,7 +33,7 @@ def resize(img,size=100,square=False):
     return img
 
 @task(ignore_result=True)
-def ingest_image(slug,url,current_page):
+def ingest_image(image_id,url):
     print "ingesting %s" % url
     filename = url.split("/")[-1]
     imgdata = GET(url)
@@ -43,10 +43,10 @@ def ingest_image(slug,url,current_page):
     f.close()
 
     for size in settings.THUMB_SIZES:
-        create_thumb.delay(slug,tmpfilename,size,current_page)
+        create_thumb.delay(image_id,tmpfilename,size)
 
 @task(ignore_result=True)
-def create_thumb(slug,tmpfilename,size,current_page):
+def create_thumb(image_id,tmpfilename,size):
     print "create_thumb %s %s" % (tmpfilename,str(size))
     (dim,sq) = size
     sizestr = "%s%s" % (dim,sq)
@@ -63,11 +63,11 @@ def create_thumb(slug,tmpfilename,size,current_page):
     else:
         # don't need to make a _full one
         thumb_tmpfilename = tmpfilename
-    upload_thumb.delay(slug,thumb_tmpfilename,size,current_page)
+    upload_thumb.delay(image_id,thumb_tmpfilename,size)
 
 
 @task(ignore_result=True)
-def upload_thumb(slug,tmpfilename,size,current_page):
+def upload_thumb(image_id,tmpfilename,size):
     size = "%s%s" % (size[0],size[1])
     print "upload_thumb %s %s" % (tmpfilename,size)
 
@@ -83,6 +83,6 @@ def upload_thumb(slug,tmpfilename,size,current_page):
 
     print cap
     (_p,ext) = os.path.splitext(tmpfilename)
-    models.add_thumb(slug,size,cap,ext,current_page)
+    models.add_thumb(image_id,size,cap,ext)
 
 

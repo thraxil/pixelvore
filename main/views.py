@@ -1,6 +1,6 @@
 from django.template import RequestContext
 from django.http import HttpResponseRedirect,HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 import models
 import tasks
 from utils import parse_tags
@@ -9,6 +9,8 @@ import html5lib
 from html5lib import treebuilders
 import re
 import urlparse
+from django.db import transaction
+
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -28,7 +30,7 @@ class rendered_with(object):
 def index(request):
     limit = int(request.GET.get('limit','10'))
     offset = int(request.GET.get('offset','0'))
-    return dict(images=models.get_pages(limit,offset))
+    return dict(images=models.Image.objects.all().order_by("-created")[offset:limit+offset])
 
 @rendered_with("main/tag_index.html")
 def tag_index(request):
@@ -36,12 +38,14 @@ def tag_index(request):
 
 @rendered_with("main/tag.html")
 def tag(request,tag):
-    return dict(images=models.get_tag_images(tag),
-                tag=tag)
+    t = get_object_or_404(models.Tag,slug=tag)
+    return dict(images=[it.image for it in t.imagetag_set.all()],
+                tag=t)
 
 @rendered_with("main/image.html")
-def image(request,slug):
-    return dict(image=models.get_image_obj(slug))
+def image(request,image_id):
+    image = get_object_or_404(models.Image,id=image_id)
+    return dict(image=image)
 
 
 def get_width(i):
@@ -62,7 +66,7 @@ def fix_base_path(image,base_url):
         image['src'] = urlparse.urljoin(base_url,image['src'])
     return image
         
-
+@transaction.commit_manually
 @rendered_with("main/import.html")
 def import_url(request):
     if request.method == "GET":
@@ -71,6 +75,7 @@ def import_url(request):
             return dict()
         resp,data = GET(url,resp=True)
         if resp['status'] != '200':
+            print str(resp['status'])
             return HttpResponse("couldn't fetch it. sorry")
 
         if resp['content-type'].startswith('image/'):
@@ -94,9 +99,17 @@ def import_url(request):
                     url = k[len("image_"):]
                     urls.append(url)
 
-        current_page = models.get_current_page()
         tags = parse_tags(request.POST.get('tags',''))
-        for url in urls:
-            slug = models.create_image(url=url,tags=tags)
-            tasks.ingest_image.delay(slug,url,current_page)
+        pairs = []
+        try:
+            for url in urls:
+                image_id = models.create_image(url=url,tags=tags)
+                pairs.append((image_id,url))
+        except:
+            transaction.rollback()
+            raise
+        else:
+            transaction.commit()
+            for (image_id,url) in pairs:
+                tasks.ingest_image.delay(image_id,url)
         return HttpResponseRedirect("/")

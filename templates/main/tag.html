@@ -1,17 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2><a href="/tag/">Tag</a>: {{tag}}</h2>
+<h2><a href="/tag/">Tag</a>: {{tag.tag}}</h2>
+
 {% for image in images %}
-{% with image.get_stream_url as imgurl %}
-{% if imgurl %}
-<div class="image" id="image-{{image.slug}}">
-<a href="{{image.get_absolute_url}}"><img src="{{imgurl}}" border="0"/></a>
+<div class="image" id="image-{{image.id}}">
+<a href="{{image.get_absolute_url}}"><img src="{{image.get_stream_url}}" border="0"/></a>
 </div>
-{% else %}
-<p>{{image.url}} is being processed...</p>
-{% endif %}
-{% endwith %}
 {% endfor %}
 
 {% endblock %}
