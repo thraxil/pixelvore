@@ -169,7 +169,7 @@ def get_tag_images(tag):
 
     return [Image(i.get_binary()) for i in t.get_links() if i.get_bucket() == IMAGE_BUCKET_NAME and i.get().exists()]
 
-def add_thumb(slug,size,cap,ext):
+def add_thumb(slug,size,cap,ext,current_page):
     created = datetime.now().strftime(DTFORMAT)
     image = get_image(slug)
     data = {
@@ -187,7 +187,7 @@ def add_thumb(slug,size,cap,ext):
         # TODO: figure out something more efficient
         # so we don't have to update *all* the pages
         # each time an image is added
-        update_pages()
+        update_pages(current_page)
 
 def clear_orphan_images():
     imageindex = index_bucket.get_binary('image-index')
@@ -210,7 +210,7 @@ def delete_all_pages():
     index_bucket.get_binary("current-page").set_data("0").store()    
 
 
-def update_pages():
+def update_pages(start_at=0):
     imageindex = index_bucket.get_binary('image-index')
 
     images = [Image(i) for i in [img.get_binary() for img in imageindex.get_links()] if i.exists()]
@@ -220,7 +220,8 @@ def update_pages():
     page_number = int(index_bucket.get_binary("current-page").get_data())
 
     for i in range(image_count):
-        make_page_image(i,images[i])
+        if i >= start_at:
+            make_page_image(i,images[i])
 
     current_image = page_number * PAGE_SIZE
 

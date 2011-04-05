@@ -94,8 +94,9 @@ def import_url(request):
                     url = k[len("image_"):]
                     urls.append(url)
 
+        current_page = models.get_current_page()
         tags = parse_tags(request.POST.get('tags',''))
         for url in urls:
             slug = models.create_image(url=url,tags=tags)
-            tasks.ingest_image.delay(slug,url)
+            tasks.ingest_image.delay(slug,url,current_page)
         return HttpResponseRedirect("/")
