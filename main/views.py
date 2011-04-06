@@ -30,7 +30,9 @@ class rendered_with(object):
 def index(request):
     limit = int(request.GET.get('limit','10'))
     offset = int(request.GET.get('offset','0'))
-    return dict(images=models.Image.objects.all().order_by("-created")[offset:limit+offset])
+    thumbs = models.Thumb.objects.filter(size="1000").order_by("-created")[offset:offset+limit]
+    images = [t.image for t in thumbs]
+    return dict(images=images)
 
 @rendered_with("main/tag_index.html")
 def tag_index(request):
