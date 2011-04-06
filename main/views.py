@@ -88,20 +88,21 @@ def fix_base_path(image,base_url):
 def import_url(request):
     if request.method == "GET":
         url = request.GET.get('url','')
+        queued = models.Image.objects.all().count() - models.Thumb.objects.filter(size="1000").count()
         if not url:
-            return dict()
+            return dict(queued=queued)
         resp,data = GET(url,resp=True)
         if resp['status'] != '200':
             print str(resp['status'])
             return HttpResponse("couldn't fetch it. sorry")
 
         if resp['content-type'].startswith('image/'):
-            return dict(url=url)
+            return dict(url=url,queued=queued)
         elif resp['content-type'].startswith('text/html'):
             parser=html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
             tree = parser.parse(data)
             images = [fix_base_path(i,url) for i in tree.findAll('img') if get_width(i) > 75]
-            return dict(html=True,images=images)
+            return dict(html=True,images=images,queued=queued)
         else:
             return HttpResponse("unknown content-type: %s" % resp['content-type'])
     if request.method == "POST":
