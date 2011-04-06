@@ -30,6 +30,10 @@ class Image(models.Model):
     def get_stream_url(self):
         return self.get_thumb_url("1000")
 
+    def get_squarethumb_url(self):
+        return self.get_thumb_url("100square")
+
+
     def tags(self):
         return [it.tag for it in self.imagetag_set.all().order_by("tag__tag")]
 

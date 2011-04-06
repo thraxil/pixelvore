@@ -3,10 +3,53 @@
 {% block content %}
 <h2><a href="/tag/">Tag</a>: {{tag.tag}}</h2>
 
-{% for image in images %}
-<div class="image" id="image-{{image.id}}">
-<a href="{{image.get_absolute_url}}"><img src="{{image.get_stream_url}}" border="0"/></a>
+<div class="pagination">
+    <span class="step-links">
+        {% if images.has_previous %}
+            <a href="?page={{ images.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ images.number }} of {{ images.paginator.num_pages }}.
+        </span>
+
+        {% if images.has_next %}
+            <a href="?page={{ images.next_page_number }}">next</a>
+        {% endif %}
+    </span>
 </div>
+
+
+{% for it in images.object_list %}
+{% with it.image.get_squarethumb_url as thumb_url %}
+<div class="thumb" id="image-{{it.image.id}}">
+<a href="{{it.image.get_absolute_url}}">
+{% if thumb_url %}
+<img src="{{thumb_url}}" border="0" width="100" height="100" />
+{% else %}
+[processing]
+{% endif %}
+</a>
+</div>
+{% endwith %}
 {% endfor %}
+
+<br style="clear:both"/>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if images.has_previous %}
+            <a href="?page={{ images.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ images.number }} of {{ images.paginator.num_pages }}.
+        </span>
+
+        {% if images.has_next %}
+            <a href="?page={{ images.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 
 {% endblock %}

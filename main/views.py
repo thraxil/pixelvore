@@ -10,7 +10,7 @@ from html5lib import treebuilders
 import re
 import urlparse
 from django.db import transaction
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -56,8 +56,15 @@ def tag_index(request):
 @rendered_with("main/tag.html")
 def tag(request,tag):
     t = get_object_or_404(models.Tag,slug=tag)
-    return dict(images=[it.image for it in t.imagetag_set.all()],
-                tag=t)
+    paginator = Paginator(t.imagetag_set.all(), 100)
+    page = request.GET.get('page','1')
+    try:
+        images = paginator.page(page)
+    except PageNotAnInteger:
+        images = paginator.page(1)
+    except EmptyPage:
+        images = paginator.page(paginator.num_pages)
+    return dict(images=images,tag=t)
 
 @rendered_with("main/image.html")
 def image(request,image_id):

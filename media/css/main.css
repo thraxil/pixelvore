@@ -810,3 +810,10 @@ body.fluid #content
 {
 padding-bottom: 20px;
 }
+
+.thumb {
+display: block;
+float: left;
+width: 100px;
+height: 100px;
+}
