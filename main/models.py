@@ -43,6 +43,17 @@ class Thumb(models.Model):
     def url(self):
         return settings.PUBLIC_TAHOE_BASE + "file/" + urllib2.quote(self.cap) + "/?@@named=%s%s" % (str(self.size),self.ext)
 
+    def width(self):
+        if self.size.endswith("square"):
+            return int(self.size[:-6])
+        return None
+
+    def height(self):
+        if self.size.endswith("square"):
+            return int(self.size[:-6])
+        return None
+
+
 class Tag(models.Model):
     slug = models.SlugField()
     tag = models.CharField(max_length=256,default="")
