@@ -1,0 +1,6 @@
+{% for image in images %}
+<div class="image" id="{{image.offset}}">
+<a href="{{image.get_absolute_url}}"><img src="{{image.get_stream_url}}"
+					  border="0"/></a>
+</div>
+{% endfor %}

@@ -32,7 +32,22 @@ def index(request):
     offset = int(request.GET.get('offset','0'))
     thumbs = models.Thumb.objects.filter(size="1000").order_by("-created")[offset:offset+limit]
     images = [t.image for t in thumbs]
+    for i in images:
+        i.offset = offset
+        offset += 1
     return dict(images=images)
+
+@rendered_with("main/scroll.html")
+def scroll(request,offset):
+    limit = int(request.GET.get('limit','10'))
+    offset = int(offset) + 1
+    thumbs = models.Thumb.objects.filter(size="1000").order_by("-created")[offset:offset+limit]
+    images = [t.image for t in thumbs]
+    for i in images:
+        i.offset = offset
+        offset += 1
+    return dict(images=images)
+
 
 @rendered_with("main/tag_index.html")
 def tag_index(request):

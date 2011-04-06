@@ -9,6 +9,7 @@ site_media_root = os.path.join(os.path.dirname(__file__),"media")
 
 urlpatterns = patterns('',
                        (r'^$','main.views.index'),
+                       (r'^scroll/(?P<offset>\d+)/$','main.views.scroll'),
                        (r'^import/$','main.views.import_url'),
                        (r'^tag/$','main.views.tag_index'),
                        (r'^tag/(?P<tag>[^/]+)/$','main.views.tag'),
