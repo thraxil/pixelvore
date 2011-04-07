@@ -84,5 +84,10 @@ def upload_thumb(image_id,tmpfilename,size):
     print cap
     (_p,ext) = os.path.splitext(tmpfilename)
     models.add_thumb(image_id,size,cap,ext)
+    # ought to be safe to delete the local copy now
+    try:
+        os.remove(tmpfilename)
+    except:
+        pass
 
 
