@@ -31,10 +31,18 @@ function lastPostFunc()
 };
 
 $(window).scroll(function(){
-        if  ($(window).scrollTop() >= $(document).height() - $(window).height() - 500){
+        if  ($(window).scrollTop() >= $(document).height() - $(window).height()){
            lastPostFunc();
         }
 });
+</script>
+
+<script type="text/javascript">
+var images = new Array();
+{% for image in next_page_images %}
+images[{{forloop.counter}}] = new Image();
+images[{{forloop.counter}}].src = "{{image.get_stream_url}}";
+{% endfor %}
 </script>
 
 {% endblock %}

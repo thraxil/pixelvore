@@ -4,3 +4,11 @@
 					  border="0"/></a>
 </div>
 {% endfor %}
+
+<script type="text/javascript">
+var images = new Array();
+{% for image in next_page_images %}
+images[{{forloop.counter}}] = new Image();
+images[{{forloop.counter}}].src = "{{image.get_stream_url}}";
+{% endfor %}
+</script>

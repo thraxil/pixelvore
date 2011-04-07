@@ -35,7 +35,13 @@ def index(request):
     for i in images:
         i.offset = offset
         offset += 1
-    return dict(images=images)
+    noffset = offset + limit
+    thumbs = models.Thumb.objects.filter(size="1000").order_by("-created")[noffset:noffset+limit]
+    next_page_images = [t.image for t in thumbs]
+    for i in next_page_images:
+        i.offset = offset
+        offset += 1
+    return dict(images=images,next_page_images=next_page_images)
 
 @rendered_with("main/scroll.html")
 def scroll(request,offset):
@@ -46,7 +52,13 @@ def scroll(request,offset):
     for i in images:
         i.offset = offset
         offset += 1
-    return dict(images=images)
+    noffset = offset + limit
+    thumbs = models.Thumb.objects.filter(size="1000").order_by("-created")[noffset:noffset+limit]
+    next_page_images = [t.image for t in thumbs]
+    for i in next_page_images:
+        i.offset = offset
+        offset += 1
+    return dict(images=images,next_page_images=next_page_images)
 
 
 @rendered_with("main/tag_index.html")
