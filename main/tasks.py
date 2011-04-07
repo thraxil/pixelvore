@@ -8,6 +8,7 @@ from poster.streaminghttp import register_openers
 import cStringIO
 import os
 import Image
+import uuid
 
 def square_resize(img,size):
     sizes = list(img.size)
