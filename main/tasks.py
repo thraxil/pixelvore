@@ -37,7 +37,16 @@ def ingest_image(image_id,url):
     print "ingesting %s" % url
     filename = url.split("/")[-1]
     imgdata = GET(url)
-    tmpfilename = "/tmp/%s" % filename
+    ext = ".jpg"
+    try:
+        ext = "." + filename.split(".")[-1].lower()
+    except:
+        # bad filename
+        pass
+
+    uuid = str(uuid.uuid4())
+    filename = uuid + ext
+    tmpfilename = "/var/www/pixelvore/tmp/%s" % filename
     f = open(tmpfilename, "wb")
     f.write(imgdata)
     f.close()
