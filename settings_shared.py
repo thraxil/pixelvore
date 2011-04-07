@@ -87,7 +87,5 @@ PUBLIC_TAHOE_BASE = "http://tahoe.ccnmtl.columbia.edu/"
 THUMB_SIZES = (
     ("full",""),
     ("1000",""),
-    ("100",""),
     ("100","square"),
-    ("50","square"),
 )
