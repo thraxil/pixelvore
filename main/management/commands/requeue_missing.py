@@ -12,7 +12,7 @@ class Command(BaseCommand):
             tt = i.get_squarethumb_url()
             ft = i.get_full_url()
             if None in [st,tt,ft]:
-                print "redoing %d" % i.url
+                print "redoing %s" % i.url
                 # clear it out
                 for t in image.thumb_set.all():
                     t.delete()
