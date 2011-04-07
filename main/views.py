@@ -11,6 +11,7 @@ import re
 import urlparse
 from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import random
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -81,6 +82,13 @@ def tag(request,tag):
 @rendered_with("main/image.html")
 def image(request,image_id):
     image = get_object_or_404(models.Image,id=image_id)
+    return dict(image=image)
+
+@rendered_with("main/image.html")
+def random_image(request):
+    cnt = models.Image.objects.all().count()
+    i = random.randint(0,cnt)
+    image = models.Image.objects.all()[i]
     return dict(image=image)
 
 
