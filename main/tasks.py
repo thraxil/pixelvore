@@ -45,8 +45,8 @@ def ingest_image(image_id,url):
         # bad filename
         pass
 
-    uuid = str(uuid.uuid4())
-    filename = uuid + ext
+    ouuid = str(uuid.uuid4())
+    filename = ouuid + ext
     tmpfilename = "/var/www/pixelvore/tmp/%s" % filename
     f = open(tmpfilename, "wb")
     f.write(imgdata)
