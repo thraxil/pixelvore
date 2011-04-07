@@ -36,6 +36,8 @@ def resize(img,size=100,square=False):
 @task(ignore_result=True)
 def ingest_image(image_id,url):
     print "ingesting %s" % url
+    if " " in url:
+        url = url.replace(" ","%20")
     filename = url.split("/")[-1]
     imgdata = GET(url)
     ext = ".jpg"
