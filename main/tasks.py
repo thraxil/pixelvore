@@ -9,6 +9,7 @@ import cStringIO
 import os
 import Image
 import uuid
+import re
 
 def square_resize(img,size):
     sizes = list(img.size)
@@ -39,6 +40,11 @@ def ingest_image(image_id,url):
     if " " in url:
         url = url.replace(" ","%20")
     filename = url.split("/")[-1]
+    if "?" in filename:
+        filename = re.sub(r'(\?.*)$','',filename)
+    if "#" in filename:
+        filename = re.sub(r'(\#.*)$','',filename)
+
     imgdata = GET(url)
     ext = ".jpg"
     try:
