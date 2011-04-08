@@ -108,11 +108,13 @@ def width_parse(w):
 def fix_base_path(image,base_url):
     if not image['src'].startswith("http://"):
         image['src'] = urlparse.urljoin(base_url,image['src'])
+    image['src'] = image['src'].replace(" ","%20").replace("+","%20")
     return image
 
 def fix_link_base_path(link,base_url):
     if not link['href'].startswith("http://"):
         link['href'] = urlparse.urljoin(base_url,link['href'])
+    link['href'] = link['href'].replace(" ","%20").replace("+","%20")
     return link
 
 def is_image_link(link):
@@ -128,6 +130,7 @@ def is_image_link(link):
 def import_url(request):
     if request.method == "GET":
         url = request.GET.get('url','')
+        url = url.replace(" ","%20").replace("+","%20")
         queued = models.Image.objects.all().count() - models.Thumb.objects.filter(size="1000").count()
         if not url:
             return dict(queued=queued)
