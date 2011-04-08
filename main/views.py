@@ -109,6 +109,19 @@ def fix_base_path(image,base_url):
     if not image['src'].startswith("http://"):
         image['src'] = urlparse.urljoin(base_url,image['src'])
     return image
+
+def fix_link_base_path(link,base_url):
+    if not link['href'].startswith("http://"):
+        link['href'] = urlparse.urljoin(base_url,link['href'])
+    return link
+
+def is_image_link(link):
+    if not link.has_key('href'):
+        return False
+    return link['href'].lower().endswith(".jpg") or \
+        link['href'].lower().endswith(".jpeg") or \
+        link['href'].lower().endswith(".png") or \
+        link['href'].lower().endswith(".gif")
         
 @transaction.commit_manually
 @rendered_with("main/import.html")
@@ -129,7 +142,8 @@ def import_url(request):
             parser=html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
             tree = parser.parse(data)
             images = [fix_base_path(i,url) for i in tree.findAll('img') if get_width(i) > 75]
-            return dict(html=True,images=images,queued=queued)
+            image_links = [fix_link_base_path(i,url) for i in tree.findAll('a') if is_image_link(i)]
+            return dict(html=True,images=images,links=image_links,queued=queued)
         else:
             return HttpResponse("unknown content-type: %s" % resp['content-type'])
     if request.method == "POST":

@@ -13,6 +13,16 @@
 <input type="text" name="tags" style="width:100%" /><br />
 
 <table>
+{% for link in links %}
+<tr>
+<td valign="top"><input type="checkbox" name="image_{{link.href}}" />[link]</td>
+<td>
+<img src="{{link.href}}" />
+</td>
+</tr>
+{% endfor %}
+
+
 {% for image in images %}
 <tr>
 <td valign="top"><input type="checkbox" name="image_{{image.src}}" /></td>
@@ -21,6 +31,9 @@
 </td>
 </tr>
 {% endfor %}
+
+
+
 </table>
 <input type="submit" value="ingest"/>
 </form>
