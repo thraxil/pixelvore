@@ -7,7 +7,7 @@ class LatestImagesFeed(Feed):
     description = "newest images from pixelvore.thraxil.org"
 
     def items(self):
-        thumbs = models.Thumb.objects.filter(size="1000").order_by("-created")[:50]
+        thumbs = models.Thumb.objects.filter(size="1000").order_by("-created")[:20]
         return [t.image for t in thumbs]
 
     def item_title(self, item):
