@@ -1,6 +1,6 @@
 import models
 from celery.decorators import task
-from restclient import GET
+from restclient import GET,POST
 from django.conf import settings
 import urllib2
 from poster.encode import multipart_encode, MultipartParam
@@ -10,6 +10,8 @@ import os
 import Image
 import uuid
 import re
+from datetime import datetime
+from simplejson import loads
 
 def square_resize(img,size):
     sizes = list(img.size)
@@ -69,6 +71,10 @@ def create_thumb(image_id,tmpfilename,size):
     (dim,sq) = size
     sizestr = "%s%s" % (dim,sq)
     (base,ext) = os.path.splitext(tmpfilename)
+    ext = ext.lower()
+    if ext not in [".jpg",".gif",".png",".jpeg"]:
+        # something weird. just go with jpg
+        ext = ".jpg"
     base = base + "_" + sizestr
     thumb_tmpfilename = base + ext
     if dim != "full":
@@ -83,11 +89,56 @@ def create_thumb(image_id,tmpfilename,size):
         thumb_tmpfilename = tmpfilename
     upload_thumb.delay(image_id,thumb_tmpfilename,size)
 
+def make_date_directory():
+    date = datetime.now()
+    path = "%04d/%02d/%02d" % (date.year, date.month, date.day)
+    return makedirs(path)
+
+def info(cap):
+    return loads(GET(json_url(cap)))
+
+def json_url(cap):
+    return settings.TAHOE_BASE + "uri/" + urllib2.quote(cap) + "/?t=json"
+
+def tahoe_url(cap):
+    return settings.TAHOE_BASE + "uri/" + urllib2.quote(cap) + "/"
+
+def mkdir(cap,name):
+    return POST(tahoe_url(cap),
+                params=dict(t="mkdir",
+                            name=name),
+                async=False)
+
+def get_children(cap):
+    return info(cap)[1]['children']
+
+def makedirs(path):
+    """ styled after os.makedirs, creates all the directories for the full path"""
+    """ expects a rooted path like '/a/b/c' and returns the cap for 'c' """
+    def md(cap,path):
+        if path == "":
+            return cap 
+        parts = path.split("/")
+        first_child = parts[0]
+        rest = parts[1:]
+
+        children = get_children(cap)
+        if children.has_key(parts[0]):
+            child_info = children[parts[0]]
+            child_cap = child_info[1]["rw_uri"]
+        else:
+            child_cap = mkdir(cap,parts[0])
+
+        return md(child_cap,"/".join(rest))
+    dircap = md(settings.TAHOE_BASE_CAP,path)
+    return dircap
 
 @task(ignore_result=True)
 def upload_thumb(image_id,tmpfilename,size):
     size = "%s%s" % (size[0],size[1])
     print "upload_thumb %s %s" % (tmpfilename,size)
+
+    dircap = make_date_directory()
 
     source_file = open(tmpfilename,"rb")
     register_openers()
@@ -95,7 +146,8 @@ def upload_thumb(image_id,tmpfilename,size):
             ("t","upload"),
             MultipartParam(name='file',fileobj=source_file,
                            filename=os.path.basename(tmpfilename))))
-    request = urllib2.Request(settings.TAHOE_UPLOAD_BASE, datagen, headers)
+    upload_url = tahoe_url(dircap)
+    request = urllib2.Request(upload_url, datagen, headers)
     cap = urllib2.urlopen(request).read()
     source_file.close()
 
