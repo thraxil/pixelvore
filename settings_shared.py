@@ -90,3 +90,5 @@ THUMB_SIZES = (
     ("1000",""),
     ("100","square"),
 )
+
+APOMIXIS_BASE = "http://apomixis.thraxil.org/"

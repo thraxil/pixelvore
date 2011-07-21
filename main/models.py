@@ -8,8 +8,6 @@ from django.db import models
 
 DTFORMAT = "%Y-%m-%dT%H:%M:%S"
 
-
-
 class Image(models.Model):
     created = models.DateTimeField(auto_now=True)
     url = models.URLField(default="")
@@ -19,46 +17,17 @@ class Image(models.Model):
     def get_absolute_url(self):
         return "/image/%d/" % self.id
 
-    def get_thumb_url(self,size):
-        r = self.thumb_set.filter(size=size)
-        if r.count() == 1:
-            return r[0].url()
-        else:
-            return None
-
     def get_full_url(self):
-        return self.get_thumb_url("full")
+        return "%simage/%s/full/image%s" % (settings.APOMIXIS_BASE,self.ahash,self.ext)
 
     def get_stream_url(self):
-        return self.get_thumb_url("1000")
+        return "%simage/%s/1000w/image%s" % (settings.APOMIXIS_BASE,self.ahash,self.ext)
 
     def get_squarethumb_url(self):
-        return self.get_thumb_url("100square")
-
+        return "%simage/%s/100s/image%s" % (settings.APOMIXIS_BASE,self.ahash,self.ext)
 
     def tags(self):
         return [it.tag for it in self.imagetag_set.all().order_by("tag__tag")]
-
-class Thumb(models.Model):
-    image = models.ForeignKey(Image)
-    size = models.CharField(max_length=256,default="full")
-    created = models.DateTimeField(auto_now=True)
-    cap = models.TextField(default="",blank="")
-    ext = models.CharField(max_length=256,default=".jpg")
-
-    def url(self):
-        return settings.PUBLIC_TAHOE_BASE + "file/" + urllib2.quote(self.cap) + "/?@@named=%s%s" % (str(self.size),self.ext)
-
-    def width(self):
-        if self.size.endswith("square"):
-            return int(self.size[:-6])
-        return None
-
-    def height(self):
-        if self.size.endswith("square"):
-            return int(self.size[:-6])
-        return None
-
 
 class Tag(models.Model):
     slug = models.SlugField()
@@ -92,11 +61,6 @@ def create_image(url,tags):
 def get_all_tags():
     return Tag.objects.all().order_by("tag")
 
-
-def add_thumb(image_id,size,cap,ext):
-    image = Image.objects.get(id=image_id)
-    thumb = Thumb.objects.create(image=image,size=size,cap=cap,ext=ext)
-
 def apomixis_save_image(image_id,ahash,ext):
     image = Image.objects.get(id=image_id)
     image.ahash = ahash
@@ -117,8 +81,5 @@ def load_everything(filename):
                 continue
             (t,created) = Tag.objects.get_or_create(slug=tagslug,tag=tag)
             (it,created) = ImageTag.objects.get_or_create(image=image,tag=t)
-        for thumb in s['thumbs']:
-            t = Thumb.objects.create(image=image,size=thumb['size'],cap=thumb['cap'],ext=thumb['ext'],
-                                     created=thumb['created'])
         print "finished %s" % s['url']
             

@@ -31,14 +31,12 @@ class rendered_with(object):
 def index(request):
     limit = int(request.GET.get('limit','10'))
     offset = int(request.GET.get('offset','0'))
-    thumbs = models.Thumb.objects.filter(size="1000").order_by("-created")[offset:offset+limit]
-    images = [t.image for t in thumbs]
+    images = models.Image.objects.filter(ahash__gt="").order_by("-created")[offset:offset+limit]
     for i in images:
         i.offset = offset
         offset += 1
     noffset = offset + limit
-    thumbs = models.Thumb.objects.filter(size="1000").order_by("-created")[noffset:noffset+limit]
-    next_page_images = [t.image for t in thumbs]
+    next_page_images = models.Image.objects.filter(ahash__gt="").order_by("-created")[noffset:noffset+limit]
     for i in next_page_images:
         i.offset = offset
         offset += 1
@@ -48,14 +46,12 @@ def index(request):
 def scroll(request,offset):
     limit = int(request.GET.get('limit','10'))
     offset = int(offset) + 1
-    thumbs = models.Thumb.objects.filter(size="1000").order_by("-created")[offset:offset+limit]
-    images = [t.image for t in thumbs]
+    images = models.Image.objects.filter(ahash__gt="").order_by("-created")[offset:offset+limit]
     for i in images:
         i.offset = offset
         offset += 1
     noffset = offset + limit
-    thumbs = models.Thumb.objects.filter(size="1000").order_by("-created")[noffset:noffset+limit]
-    next_page_images = [t.image for t in thumbs]
+    next_page_images = models.Image.objects.filter(ahash__gt="").order_by("-created")[noffset:noffset+limit]
     for i in next_page_images:
         i.offset = offset
         offset += 1
@@ -129,22 +125,21 @@ def import_url(request):
     if request.method == "GET":
         url = request.GET.get('url','')
         url = url.replace(" ","%20").replace("+","%20")
-        queued = models.Image.objects.all().count() - models.Thumb.objects.filter(size="1000").count()
         if not url:
-            return dict(queued=queued)
+            return dict()
         resp,data = GET(url,resp=True)
         if resp['status'] != '200':
             print str(resp['status'])
             return HttpResponse("couldn't fetch it. sorry")
 
         if resp['content-type'].startswith('image/'):
-            return dict(url=url,queued=queued)
+            return dict(url=url)
         elif resp['content-type'].startswith('text/html'):
             parser=html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
             tree = parser.parse(data)
             images = [fix_base_path(i,url) for i in tree.findAll('img') if get_width(i) > 75]
             image_links = [fix_link_base_path(i,url) for i in tree.findAll('a') if is_image_link(i)]
-            return dict(html=True,images=images,links=image_links,queued=queued)
+            return dict(html=True,images=images,links=image_links)
         else:
             return HttpResponse("unknown content-type: %s" % resp['content-type'])
     if request.method == "POST":
