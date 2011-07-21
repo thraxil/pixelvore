@@ -161,3 +161,22 @@ def upload_thumb(image_id,tmpfilename,size):
         pass
 
 
+@task(ignore_result=True)
+def move_to_apomixis(image_id,tahoe_url,ext):
+    print "moving image %d to apomixis %s" % (image_id,tahoe_url)
+    imgdata = GET(tahoe_url)
+    print " got it out of tahoe"
+    imgobj = cStringIO.StringIO()
+    imgobj.write(imgdata)
+    imgobj.seek(0)
+
+    register_openers()
+    datagen, headers = multipart_encode((
+            ("t","upload"),
+            MultipartParam(name='image',fileobj=imgobj,
+                           filename="image%s" % ext)))
+    request = urllib2.Request("http://apomixis.thraxil.org/", datagen, headers)
+    metadata = loads(urllib2.urlopen(request).read())
+    print " uploaded to apomixis %s" % metadata["hash"]
+    models.apomixis_save_image(image_id,metadata["hash"],metadata["extension"])
+

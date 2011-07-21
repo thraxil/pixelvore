@@ -13,6 +13,8 @@ DTFORMAT = "%Y-%m-%dT%H:%M:%S"
 class Image(models.Model):
     created = models.DateTimeField(auto_now=True)
     url = models.URLField(default="")
+    ahash = models.CharField(max_length=256,default="",null=True)
+    ext = models.CharField(max_length=256,default=".jpg")
 
     def get_absolute_url(self):
         return "/image/%d/" % self.id
@@ -95,6 +97,11 @@ def add_thumb(image_id,size,cap,ext):
     image = Image.objects.get(id=image_id)
     thumb = Thumb.objects.create(image=image,size=size,cap=cap,ext=ext)
 
+def apomixis_save_image(image_id,ahash,ext):
+    image = Image.objects.get(id=image_id)
+    image.ahash = ahash
+    image.ext = ext
+    image.save()
 
 def load_everything(filename):
     d = loads(open(filename,"r").read())
