@@ -24,12 +24,12 @@ class RandomImagesFeed(Feed):
     description = "random images from pixelvore.thraxil.org"
 
     def items(self):
-        q = models.Thumb.objects.filter(size="1000")
+        q = models.Image.objects.all()
         count = q.count()
         offsets = [random.randint(0,count) for r in range(10)]
         for offset in offsets:
-            t = q[offset]
-            yield t.image
+            yield q[offset]
+
 
     def item_title(self, item):
         return "image %d" % item.id
