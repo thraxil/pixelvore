@@ -51,7 +51,6 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.markup',
     'staticmedia',
-    'sorl.thumbnail',
     'smartif',
     'template_utils',
     'typogrify',
