@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% with image.get_full_url as imgurl %}
+{% with image.get_stream_url as imgurl %}
 {% if imgurl %}
 <img src="{{imgurl}}" border="0"/>
 {% else %}

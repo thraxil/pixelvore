@@ -24,7 +24,7 @@ class Image(models.Model):
         return "%simage/%s/1000w/%d.jpg" % (settings.RETICULUM_BASE,self.ahash,self.id)
 
     def get_squarethumb_url(self):
-        return "%simage/%s/100s/%d.jpg" % (settings.RETICULUM_BASE,self.ahash,self.id)
+        return "%simage/%s/100s/%d%s" % (settings.RETICULUM_BASE,self.ahash,self.id,self.ext)
 
     def tags(self):
         return [it.tag for it in self.imagetag_set.all().order_by("tag__tag")]
