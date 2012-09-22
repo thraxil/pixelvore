@@ -79,12 +79,6 @@ BROKER_PORT = 5672
 BROKER_VHOST = "/"
 CELERYD_CONCURRENCY = 4
 
-TAHOE_BASE = "http://tahoe.thraxil.org/"
-TAHOE_BASE_CAP = "URI:DIR2:tjbmflybnqmmj5bpoilf7g3yvu:cqq2dgv5cx36g6chf5jld3ceklwjv6wumey5smuelovn3nid2ekq"
-
-TAHOE_UPLOAD_BASE = "http://tahoe.thraxil.org/uri/"
-PUBLIC_TAHOE_BASE = "http://tahoe.ccnmtl.columbia.edu/"
-
 THUMB_SIZES = (
     ("full",""),
     ("1000",""),
