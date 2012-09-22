@@ -91,4 +91,4 @@ THUMB_SIZES = (
     ("100","square"),
 )
 
-APOMIXIS_BASE = "http://apomixis.thraxil.org/"
+RETICULUM_BASE = "http://reticulum.thraxil.org/"

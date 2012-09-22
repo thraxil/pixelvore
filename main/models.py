@@ -18,13 +18,13 @@ class Image(models.Model):
         return "/image/%d/" % self.id
 
     def get_full_url(self):
-        return "%simage/%s/full/image%s" % (settings.APOMIXIS_BASE,self.ahash,self.ext)
+        return "%simage/%s/full/image%s" % (settings.RETICULUM_BASE,self.ahash,self.ext)
 
     def get_stream_url(self):
-        return "%simage/%s/1000w/image%s" % (settings.APOMIXIS_BASE,self.ahash,self.ext)
+        return "%simage/%s/1000w/image%s" % (settings.RETICULUM_BASE,self.ahash,self.ext)
 
     def get_squarethumb_url(self):
-        return "%simage/%s/100s/image%s" % (settings.APOMIXIS_BASE,self.ahash,self.ext)
+        return "%simage/%s/100s/image%s" % (settings.RETICULUM_BASE,self.ahash,self.ext)
 
     def tags(self):
         return [it.tag for it in self.imagetag_set.all().order_by("tag__tag")]
@@ -61,7 +61,7 @@ def create_image(url,tags):
 def get_all_tags():
     return Tag.objects.all().order_by("tag")
 
-def apomixis_save_image(image_id,ahash,ext):
+def reticulum_save_image(image_id,ahash,ext):
     image = Image.objects.get(id=image_id)
     image.ahash = ahash
     image.ext = ext
