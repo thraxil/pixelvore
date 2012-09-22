@@ -79,10 +79,4 @@ BROKER_PORT = 5672
 BROKER_VHOST = "/"
 CELERYD_CONCURRENCY = 4
 
-THUMB_SIZES = (
-    ("full",""),
-    ("1000",""),
-    ("100","square"),
-)
-
 RETICULUM_BASE = "http://reticulum.thraxil.org/"
