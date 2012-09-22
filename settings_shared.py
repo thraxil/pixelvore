@@ -70,9 +70,6 @@ STATICMEDIA_MOUNTS = (
     ('/sitemedia', 'sitemedia'),
 )
 
-RIAK_HOST = "128.59.152.25"
-RIAK_PORT = "8098"
-
 #CELERY_RESULT_BACKEND = "database"
 BROKER_HOST = "128.59.152.25"
 BROKER_PORT = 5672
