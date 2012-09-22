@@ -2,16 +2,14 @@ import models
 from celery.decorators import task
 from restclient import GET,POST
 from django.conf import settings
-import urllib2
-from poster.encode import multipart_encode, MultipartParam
-from poster.streaminghttp import register_openers
 import cStringIO
 import os
-import Image
 import uuid
 import re
 from datetime import datetime
 from simplejson import loads
+import requests
+
 
 @task(ignore_result=True)
 def ingest_image(image_id,url):
@@ -36,13 +34,9 @@ def ingest_image(image_id,url):
     imgobj.write(imgdata)
     imgobj.seek(0)
 
-    register_openers()
-    datagen, headers = multipart_encode((
-            ("t","upload"),
-            MultipartParam(name='image',fileobj=imgobj,
-                           filename="image%s" % ext)))
-    request = urllib2.Request("http://apomixis.thraxil.org/", datagen, headers)
-    metadata = loads(urllib2.urlopen(request).read())
-    print " uploaded to apomixis %s" % metadata["hash"]
-    models.apomixis_save_image(image_id,metadata["hash"],metadata["extension"])
+    files = {'image': ("image" + ext, imgobj) }
+    r = requests.post(RETICULUM_BASE, files=files)
+    rhash = loads(r.text)["hash"]
+    print " uploaded to reticulum %s" % rhash
+    models.reticulum_save_image(image_id,rhash,ext)
 
