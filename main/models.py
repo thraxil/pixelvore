@@ -18,10 +18,10 @@ class Image(models.Model):
         return "/image/%d/" % self.id
 
     def get_full_url(self):
-        return "%simage/%s/full/%d.jpg" % (settings.RETICULUM_BASE,self.ahash,self.id)
+        return "%simage/%s/full/%d%s" % (settings.RETICULUM_BASE,self.ahash,self.id,self.ext)
 
     def get_stream_url(self):
-        return "%simage/%s/1000w/%d.jpg" % (settings.RETICULUM_BASE,self.ahash,self.id)
+        return "%simage/%s/1000w/%d%s" % (settings.RETICULUM_BASE,self.ahash,self.id,self.ext)
 
     def get_squarethumb_url(self):
         return "%simage/%s/100s/%d%s" % (settings.RETICULUM_BASE,self.ahash,self.id,self.ext)
