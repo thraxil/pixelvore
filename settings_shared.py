@@ -80,6 +80,7 @@ INSTALLED_APPS = (
     'djcelery',
     'main',
     'django_nose',
+    'south',
 )
 
 THUMBNAIL_SUBDIR = "thumbs"
