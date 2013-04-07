@@ -1,6 +1,6 @@
 import pixelvore.main.models as models
 from celery.decorators import task
-from restclient import GET
+import requests
 from django.conf import settings
 import cStringIO
 import re
@@ -19,7 +19,8 @@ def ingest_image(image_id, url):
     if "#" in filename:
         filename = re.sub(r'(\#.*)$', '', filename)
 
-    imgdata = GET(url)
+    r = requests.get(url)
+
     ext = ".jpg"
     try:
         ext = "." + filename.split(".")[-1].lower()
@@ -28,7 +29,8 @@ def ingest_image(image_id, url):
         pass
 
     imgobj = cStringIO.StringIO()
-    imgobj.write(imgdata)
+    for chunk in r.iter_content(1024):
+        imgobj.write(chunk)
     imgobj.seek(0)
 
     files = {'image': ("image" + ext, imgobj)}

@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 import pixelvore.main.models as models
 import pixelvore.main.tasks as tasks
 from utils import parse_tags
-from restclient import GET
+import requests
 import html5lib
 from html5lib import treebuilders
 import re
@@ -144,17 +144,16 @@ def import_url(request):
         url = url.replace(" ", "%20").replace("+", "%20")
         if not url:
             return dict()
-        resp, data = GET(url, resp=True)
-        if resp['status'] != '200':
-            print str(resp['status'])
+        r = requests.get(url)
+        if r.status_code != 200:
             return HttpResponse("couldn't fetch it. sorry")
 
-        if resp['content-type'].startswith('image/'):
+        if r.headers['content-type'].startswith('image/'):
             return dict(url=url)
-        elif resp['content-type'].startswith('text/html'):
+        elif r.headers['content-type'].startswith('text/html'):
             parser = html5lib.HTMLParser(
                 tree=treebuilders.getTreeBuilder("beautifulsoup"))
-            tree = parser.parse(data)
+            tree = parser.parse(r.text)
             images = [fix_base_path(i, url) for i in tree.findAll('img')
                       if get_width(i) > 75]
             image_links = [fix_link_base_path(i, url)
@@ -163,7 +162,7 @@ def import_url(request):
             return dict(html=True, images=images, links=image_links)
         else:
             return HttpResponse(
-                "unknown content-type: %s" % resp['content-type'])
+                "unknown content-type: %s" % r.headers['content-type'])
     if request.method == "POST":
         urls = []
         url = request.POST.get('url', '')
