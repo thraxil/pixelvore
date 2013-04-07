@@ -1,7 +1,7 @@
 from settings_shared import *
 
 TEMPLATE_DIRS = (
-    "/var/www/pixelvore/pixelvore/templates",
+    "/var/www/pixelvore/pixelvore/pixelvore/templates",
 )
 
 MEDIA_ROOT = '/var/www/pixelvore/uploads/'
@@ -13,8 +13,6 @@ STATICMEDIA_MOUNTS = (
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-RIAK_HOST = "184.106.204.246"
-BROKER_HOST = "184.106.204.246"
 
 try:
     from local_settings import *
