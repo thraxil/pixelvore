@@ -77,7 +77,7 @@ INSTALLED_APPS = (
     'typogrify',
     'munin',
     'djcelery',
-    'main',
+    'pixelvore.main',
     'django_nose',
     'south',
 )

@@ -1,4 +1,4 @@
-import models
+import pixelvore.main.models as models
 from celery.decorators import task
 from restclient import GET
 from django.conf import settings

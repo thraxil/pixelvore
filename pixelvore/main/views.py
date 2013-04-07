@@ -1,8 +1,8 @@
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-import models
-import tasks
+import pixelvore.main.models as models
+import pixelvore.main.tasks as tasks
 from utils import parse_tags
 from restclient import GET
 import html5lib
