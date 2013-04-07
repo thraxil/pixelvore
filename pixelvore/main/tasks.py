@@ -5,7 +5,6 @@ from django.conf import settings
 import cStringIO
 import re
 from simplejson import loads
-import requests
 
 
 @task(ignore_result=True)
