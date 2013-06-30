@@ -83,6 +83,7 @@ INSTALLED_APPS = (
     'django_nose',
     'south',
     'django_statsd',
+    'gunicorn',
 )
 
 THUMBNAIL_SUBDIR = "thumbs"
