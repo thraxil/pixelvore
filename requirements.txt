@@ -1,4 +1,5 @@
 Django==1.4.3
+six==1.2.0
 python-dateutil==2.1
 resolver==0.2.1
 selector==0.8.11
