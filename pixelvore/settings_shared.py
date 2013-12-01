@@ -53,6 +53,7 @@ TEMPLATE_LOADERS = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.request',
+    'django.core.context_processors.static',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,7 +74,8 @@ djcelery.setup_loader()
 INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.markup',
-    'staticmedia',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
     'smartif',
     'template_utils',
     'typogrify',
@@ -84,6 +86,16 @@ INSTALLED_APPS = (
     'south',
     'django_statsd',
     'gunicorn',
+)
+
+STATIC_URL = "/media/"
+STATICFILES_DIRS = (
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "../media/")),
+)
+STATIC_ROOT = ""
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
 THUMBNAIL_SUBDIR = "thumbs"

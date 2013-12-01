@@ -1,7 +1,9 @@
 from fabric.api import run, sudo, local, cd, env, roles, execute, runs_once
 
 env.hosts = ['oolong.thraxil.org', 'maru.thraxil.org', 'tardar.thraxil.org']
+nginx_hosts = ['lilbub.thraxil.org', 'lolrus.thraxil.org']
 env.user = 'anders'
+env.forward_agent = True
 
 env.roledefs = {
     'celery': ['tardar.thraxil.org'],
@@ -21,6 +23,14 @@ def restart_celery():
 def prepare_deploy():
     local("./manage.py test")
 
+@roles('web')
+def staticfiles():
+    with cd(code_dir):
+        run("./manage.py collectstatic --noinput --settings=pixelvore.settings_production")
+        for n in nginx_hosts:
+            run(("rsync -avp --delete media/ "
+                 "%s:/var/www/pixelvore/pixelvore/media/") % n)
+
 @runs_once
 def migrate():
     with cd(code_dir):
@@ -31,5 +41,6 @@ def deploy():
         run("git pull origin master")
         run("./bootstrap.py")
     migrate()
+    staticfiles()
     execute(restart_gunicorn)
     execute(restart_celery)
