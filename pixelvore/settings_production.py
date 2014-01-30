@@ -17,6 +17,11 @@ STATIC_ROOT = "/var/www/skinflint/skinflint/media/"
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+if 'migrate' not in sys.argv:
+    INSTALLED_APPS = INSTALLED_APPS + [
+        'raven.contrib.django.raven_compat',
+    ]
+
 try:
     from local_settings import *
 except ImportError:

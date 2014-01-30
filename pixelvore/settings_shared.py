@@ -71,7 +71,7 @@ TEMPLATE_DIRS = (
 import djcelery
 djcelery.setup_loader()
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.markup',
     'django.contrib.messages',
@@ -86,7 +86,7 @@ INSTALLED_APPS = (
     'south',
     'django_statsd',
     'gunicorn',
-)
+]
 
 STATIC_URL = "/media/"
 STATICFILES_DIRS = (
