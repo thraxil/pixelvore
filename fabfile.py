@@ -1,13 +1,13 @@
 from fabric.api import run, sudo, local, cd, env, roles, execute, runs_once
 
-env.hosts = ['oolong.thraxil.org', 'maru.thraxil.org', 'tardar.thraxil.org']
-nginx_hosts = ['lilbub.thraxil.org', 'lolrus.thraxil.org']
+env.hosts = ['maru.thraxil.org', 'tardar.thraxil.org']
+nginx_hosts = ['lolrus.thraxil.org']
 env.user = 'anders'
 env.forward_agent = True
 
 env.roledefs = {
     'celery': ['tardar.thraxil.org'],
-    'web': ['maru.thraxil.org', 'oolong.thraxil.org'],
+    'web': ['maru.thraxil.org'],
 }
 
 code_dir = "/var/www/pixelvore/pixelvore"
