@@ -6,8 +6,8 @@ env.user = 'anders'
 env.forward_agent = True
 
 env.roledefs = {
-    'celery': ['orlando.thraxil.org'],
-    'web': ['maru.thraxil.org'],
+    'celery': ['tardar.thraxil.org'],
+    'web': ['orlando.thraxil.org'],
 }
 
 code_dir = "/var/www/pixelvore/pixelvore"
