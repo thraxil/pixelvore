@@ -15,7 +15,6 @@ urlpatterns = patterns(
     (r'^tag/(?P<tag>[^/]+)/$', 'pixelvore.main.views.tag'),
     (r'^random/$', 'pixelvore.main.views.random_image'),
     (r'^image/(?P<image_id>[^/]+)/$', 'pixelvore.main.views.image'),
-    (r'^munin/', include('munin.urls')),
-    (r'^uploads/(?P<path>.*)$', 'django.views.static.serve',
+     (r'^uploads/(?P<path>.*)$', 'django.views.static.serve',
      {'document_root': settings.MEDIA_ROOT}),
 )
