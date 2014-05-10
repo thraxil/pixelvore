@@ -73,19 +73,18 @@ djcelery.setup_loader()
 
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
-    'django.contrib.markup',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'smartif',
     'template_utils',
     'typogrify',
-    'munin',
     'djcelery',
     'pixelvore.main',
     'django_nose',
     'south',
     'django_statsd',
     'gunicorn',
+    'django_markwhat',
 ]
 
 STATIC_URL = "/media/"
@@ -122,7 +121,6 @@ STATSD_CLIENT = 'statsd.client'
 STATSD_PREFIX = 'pixelvore'
 STATSD_HOST = '127.0.0.1'
 STATSD_PORT = 8125
-STATSD_PATCHES = ['django_statsd.patches.db', ]
 
 LOGGING = {
     'version': 1,

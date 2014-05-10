@@ -1,9 +1,8 @@
-from django.conf.urls.defaults import patterns, include
+from django.conf.urls import patterns, include
 from django.contrib import admin
 from django.conf import settings
 from pixelvore.main.feeds import LatestImagesFeed, RandomImagesFeed
 admin.autodiscover()
-import staticmedia
 
 urlpatterns = patterns(
     '',
@@ -19,4 +18,4 @@ urlpatterns = patterns(
     (r'^munin/', include('munin.urls')),
     (r'^uploads/(?P<path>.*)$', 'django.views.static.serve',
      {'document_root': settings.MEDIA_ROOT}),
-) + staticmedia.serve()
+)
