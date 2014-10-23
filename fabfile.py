@@ -39,6 +39,7 @@ def migrate():
 def deploy():
     with cd(code_dir):
         run("git pull origin master")
+        run("make")
     migrate()
     staticfiles()
     execute(restart_gunicorn)
