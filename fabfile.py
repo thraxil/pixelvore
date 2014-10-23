@@ -1,12 +1,12 @@
 from fabric.api import run, sudo, local, cd, env, roles, execute, runs_once
 
-env.hosts = ['orlando.thraxil.org', 'tardar.thraxil.org']
+env.hosts = ['orlando.thraxil.org', 'condor.thraxil.org']
 nginx_hosts = ['lolrus.thraxil.org']
 env.user = 'anders'
 env.forward_agent = True
 
 env.roledefs = {
-    'celery': ['tardar.thraxil.org'],
+    'celery': ['condor.thraxil.org'],
     'web': ['orlando.thraxil.org'],
 }
 
