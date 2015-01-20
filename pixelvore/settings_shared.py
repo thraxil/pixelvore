@@ -75,13 +75,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'smartif',
     'template_utils',
     'typogrify',
     'djcelery',
     'pixelvore.main',
     'django_nose',
-    'south',
     'django_statsd',
     'gunicorn',
     'django_markwhat',
@@ -107,7 +105,6 @@ STATICMEDIA_MOUNTS = (
     ('/sitemedia', 'sitemedia'),
 )
 
-#CELERY_RESULT_BACKEND = "database"
 BROKER_HOST = "128.59.152.25"
 BROKER_PORT = 5672
 BROKER_VHOST = "/"

@@ -1,5 +1,5 @@
 from django.conf import settings
-from simplejson import loads
+from json import loads
 import re
 from django.db import models
 

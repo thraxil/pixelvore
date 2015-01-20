@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include
+from django.conf.urls import patterns
 from django.contrib import admin
 from django.conf import settings
 from pixelvore.main.feeds import LatestImagesFeed, RandomImagesFeed
@@ -15,6 +15,6 @@ urlpatterns = patterns(
     (r'^tag/(?P<tag>[^/]+)/$', 'pixelvore.main.views.tag'),
     (r'^random/$', 'pixelvore.main.views.random_image'),
     (r'^image/(?P<image_id>[^/]+)/$', 'pixelvore.main.views.image'),
-     (r'^uploads/(?P<path>.*)$', 'django.views.static.serve',
+    (r'^uploads/(?P<path>.*)$', 'django.views.static.serve',
      {'document_root': settings.MEDIA_ROOT}),
 )
