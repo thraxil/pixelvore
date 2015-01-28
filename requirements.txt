@@ -1,4 +1,4 @@
-Django==1.7.3
+Django==1.7.4
 six==1.8.0
 python-dateutil==2.4.0
 Markdown==2.5.1
