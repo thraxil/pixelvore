@@ -10,4 +10,5 @@ script:
   - ./manage.py test
 after_success:
   - chmod 600 pixelvore_rsa
+  - ssh-add pxelvore_rsa
   - make travis_deploy
