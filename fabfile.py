@@ -3,7 +3,6 @@ from fabric.api import run, sudo, local, cd, env, roles, execute, runs_once
 env.hosts = ['orlando.thraxil.org', 'condor.thraxil.org']
 nginx_hosts = ['lolrus.thraxil.org']
 env.user = 'anders'
-env.forward_agent = True
 
 env.roledefs = {
     'celery': ['condor.thraxil.org'],
