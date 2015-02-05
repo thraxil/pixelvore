@@ -13,11 +13,11 @@ code_dir = "/var/www/pixelvore/pixelvore"
 
 @roles('web')
 def restart_gunicorn():
-    sudo("restart pixelvore", shell=False)
+    sudo("/sbin/restart pixelvore", shell=False)
 
 @roles('celery')
 def restart_celery():
-    sudo("restart pixelvore-celery", shell=False)
+    sudo("/sbin/restart pixelvore-celery", shell=False)
 
 def prepare_deploy():
     local("make test")
