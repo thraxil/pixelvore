@@ -110,7 +110,7 @@ BROKER_PORT = 5672
 BROKER_VHOST = "/"
 CELERYD_CONCURRENCY = 4
 
-RETICULUM_BASE = "http://reticulum.thraxil.org/"
+RETICULUM_BASE = "https://d2f33fmhbh7cs9.cloudfront.net/"
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True
 
