@@ -19,9 +19,6 @@ def restart_gunicorn():
 def restart_celery():
     sudo("/sbin/restart pixelvore-celery", shell=False)
 
-def prepare_deploy():
-    local("make test")
-
 @roles('web')
 def staticfiles():
     with cd(code_dir):

@@ -15,7 +15,7 @@ runserver: ./ve/bin/python validate
 	$(MANAGE) runserver
 
 migrate: ./ve/bin/python validate
-	$(MANAGE) migrate
+	$(MANAGE) migrate --no-input --settings=$(APP).settings_production
 
 validate: ./ve/bin/python
 	$(MANAGE) validate
