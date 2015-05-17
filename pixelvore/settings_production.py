@@ -9,7 +9,7 @@ TEMPLATE_DIRS = (
 MEDIA_ROOT = '/var/www/pixelvore/uploads/'
 
 STATICFILES_DIRS = ()
-STATIC_ROOT = = os.path.join(os.path.dirname(__file__), "../media")
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../media")
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
