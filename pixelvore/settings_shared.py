@@ -30,12 +30,7 @@ if 'test' in sys.argv:
             'PASSWORD': '', }}
 
 
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-
-NOSE_ARGS = [
-    '--with-coverage',
-    '--cover-package=pixelvore',
-]
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
@@ -79,7 +74,6 @@ INSTALLED_APPS = [
     'typogrify',
     'djcelery',
     'pixelvore.main',
-    'django_nose',
     'django_statsd',
     'gunicorn',
     'django_markwhat',
