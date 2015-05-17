@@ -26,9 +26,7 @@ def prepare_deploy():
 def staticfiles():
     with cd(code_dir):
         run("make collectstatic")
-        for n in nginx_hosts:
-            run(("rsync -avp --delete media/ "
-                 "%s:/var/www/pixelvore/pixelvore/media/") % n)
+        run("make compress")
 
 @runs_once
 def migrate():

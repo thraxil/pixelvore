@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     'django_statsd',
     'gunicorn',
     'django_markwhat',
+    'compressor',
 ]
 
 STATIC_URL = "/media/"
@@ -87,7 +88,15 @@ STATIC_ROOT = ""
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
+COMPRESS_URL = "/media/"
+COMPRESS_ROOT = "media/"
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.CSSMinFilter',
+]
+
 
 THUMBNAIL_SUBDIR = "thumbs"
 EMAIL_SUBJECT_PREFIX = "[pixelvore] "
