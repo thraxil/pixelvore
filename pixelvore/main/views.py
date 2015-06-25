@@ -136,33 +136,37 @@ def is_image_link(link):
         link['href'].lower().endswith(".gif")
 
 
-@transaction.commit_manually
+def import_url_form(request):
+    url = request.GET.get('url', '')
+    url = url.replace(" ", "%20").replace("+", "%20")
+    if not url:
+        return dict()
+    r = requests.get(url)
+    if r.status_code != 200:
+        return HttpResponse("couldn't fetch it. sorry")
+
+    if r.headers['content-type'].startswith('image/'):
+        return dict(url=url)
+    elif r.headers['content-type'].startswith('text/html'):
+        parser = html5lib.HTMLParser(
+            tree=treebuilders.getTreeBuilder("beautifulsoup"))
+        tree = parser.parse(r.text)
+        images = [fix_base_path(i, url) for i in tree.findAll('img')
+                  if get_width(i) > 75]
+        image_links = [fix_link_base_path(i, url)
+                       for i in tree.findAll('a')
+                       if is_image_link(i)]
+        return dict(html=True, images=images, links=image_links)
+    else:
+        return HttpResponse(
+            "unknown content-type: %s" % r.headers['content-type'])
+
+
+@transaction.non_atomic_requests
 @rendered_with("main/import.html")
 def import_url(request):
     if request.method == "GET":
-        url = request.GET.get('url', '')
-        url = url.replace(" ", "%20").replace("+", "%20")
-        if not url:
-            return dict()
-        r = requests.get(url)
-        if r.status_code != 200:
-            return HttpResponse("couldn't fetch it. sorry")
-
-        if r.headers['content-type'].startswith('image/'):
-            return dict(url=url)
-        elif r.headers['content-type'].startswith('text/html'):
-            parser = html5lib.HTMLParser(
-                tree=treebuilders.getTreeBuilder("beautifulsoup"))
-            tree = parser.parse(r.text)
-            images = [fix_base_path(i, url) for i in tree.findAll('img')
-                      if get_width(i) > 75]
-            image_links = [fix_link_base_path(i, url)
-                           for i in tree.findAll('a')
-                           if is_image_link(i)]
-            return dict(html=True, images=images, links=image_links)
-        else:
-            return HttpResponse(
-                "unknown content-type: %s" % r.headers['content-type'])
+        return import_url_form(request)
     if request.method == "POST":
         urls = []
         url = request.POST.get('url', '')
@@ -182,10 +186,8 @@ def import_url(request):
                 image_id = models.create_image(url=url, tags=tags)
                 pairs.append((image_id, url))
         except:
-            transaction.rollback()
             raise
         else:
-            transaction.commit()
             for (image_id, url) in pairs:
                 tasks.ingest_image.delay(image_id, url)
         return HttpResponseRedirect("/")

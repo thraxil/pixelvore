@@ -1,6 +1,7 @@
 # Django settings for pixelvore project.
 import os.path
 import sys
+import djcelery
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -63,7 +64,6 @@ TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), "templates"),
 )
 
-import djcelery
 djcelery.setup_loader()
 
 INSTALLED_APPS = [
