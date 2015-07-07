@@ -70,8 +70,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'template_utils',
-    'typogrify',
     'djcelery',
     'pixelvore.main',
     'django_statsd',
