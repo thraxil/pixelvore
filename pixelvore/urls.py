@@ -1,4 +1,4 @@
-from django.conf.urls import patterns
+from django.conf.urls import patterns, include
 from django.contrib import admin
 from django.conf import settings
 from pixelvore.main.feeds import LatestImagesFeed, RandomImagesFeed
@@ -7,6 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     (r'^$', 'pixelvore.main.views.index'),
+    (r'smoketest/', include('smoketest.urls')),
     (r'^feeds/newest/$', LatestImagesFeed()),
     (r'^feeds/random/$', RandomImagesFeed()),
     (r'^scroll/(?P<offset>\d+)/$', 'pixelvore.main.views.scroll'),

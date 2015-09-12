@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'gunicorn',
     'django_markwhat',
     'compressor',
+    'smoketest',
 ]
 
 STATIC_URL = "/media/"
