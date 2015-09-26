@@ -35,8 +35,7 @@ def ingest_image(image_id, url):
 
     print(ext)
     files = {'image': ("image" + ext, imgobj)}
-    print(settings.RETICULUM_BASE)
-    r = requests.post(settings.RETICULUM_BASE, files=files)
+    r = requests.post(settings.RETICULUM_UPLOAD_BASE, files=files)
     print(r.text)
     rhash = loads(r.text)["hash"]
     print " uploaded to reticulum %s" % rhash
