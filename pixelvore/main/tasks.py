@@ -29,11 +29,15 @@ def ingest_image(image_id, url):
 
     imgobj = cStringIO.StringIO()
     for chunk in r.iter_content(1024):
+        print("wrote chunk")
         imgobj.write(chunk)
     imgobj.seek(0)
 
+    print(ext)
     files = {'image': ("image" + ext, imgobj)}
+    print(settings.RETICULUM_BASE)
     r = requests.post(settings.RETICULUM_BASE, files=files)
+    print(r.text)
     rhash = loads(r.text)["hash"]
     print " uploaded to reticulum %s" % rhash
     models.reticulum_save_image(image_id, rhash, ext)
