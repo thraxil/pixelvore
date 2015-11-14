@@ -18,6 +18,6 @@ COPY . /var/www/pixelvore/pixelvore/
 RUN python manage.py test
 EXPOSE 8000
 ADD docker-run.sh /run.sh
-ADD docker-worker.sh /worker.sh
-ADD docker-beat.sh /beat.sh
-CMD ["/run.sh"]
+ENV APP pixelvore
+ENTRYPOINT ["/run.sh"]
+CMD ["run"]
