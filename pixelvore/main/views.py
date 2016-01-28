@@ -1,5 +1,5 @@
 from django.template import RequestContext
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 import pixelvore.main.models as models
 import pixelvore.main.tasks as tasks
@@ -72,9 +72,21 @@ def tag_index(request):
     return dict(tags=models.get_all_tags())
 
 
+def get_single_tag(tag):
+    r = models.Tag.objects.filter(slug=tag)
+    if r.count() == 0:
+        raise Http404
+    if r.count() == 1:
+        return r.first()
+    # multiples! clear out all but one
+    for t in list(r)[1:]:
+        t.delete()
+    return r.first()
+
+
 @rendered_with("main/tag.html")
 def tag(request, tag):
-    t = get_object_or_404(models.Tag, slug=tag)
+    t = get_single_tag(tag)
     paginator = Paginator(t.imagetag_set.all(), 100)
     page = request.GET.get('page', '1')
     try:
