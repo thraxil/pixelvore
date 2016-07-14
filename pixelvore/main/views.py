@@ -152,7 +152,7 @@ def import_url_form(request):
     url = url.replace(" ", "%20").replace("+", "%20")
     if not url:
         return dict()
-    r = requests.get(url)
+    r = requests.get(url, verify=False)
     if r.status_code != 200:
         return HttpResponse("couldn't fetch it. sorry")
 
