@@ -5,8 +5,7 @@ import pixelvore.main.models as models
 import pixelvore.main.tasks as tasks
 from utils import parse_tags
 import requests
-import html5lib
-from html5lib import treebuilders
+from bs4 import BeautifulSoup
 import re
 import urlparse
 from django.db import transaction
@@ -160,9 +159,7 @@ def import_url_form(request):
     if r.headers['content-type'].startswith('image/'):
         return dict(url=url)
     elif r.headers['content-type'].startswith('text/html'):
-        parser = html5lib.HTMLParser(
-            tree=treebuilders.getTreeBuilder("beautifulsoup"))
-        tree = parser.parse(r.text)
+        tree = BeautifulSoup(r.text)
         images = [fix_base_path(i, url) for i in tree.findAll('img')
                   if get_width(i) > 75]
         image_links = [fix_link_base_path(i, url)
