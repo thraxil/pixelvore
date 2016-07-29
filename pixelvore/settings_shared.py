@@ -16,5 +16,5 @@ INSTALLED_APPS += [  # noqa
 CELERYD_CONCURRENCY = 4
 
 RETICULUM_BASE = "https://d2f33fmhbh7cs9.cloudfront.net/"
-RETICULUM_UPLOAD_BASE = "http://reticulum.thraxil.org/"
+RETICULUM_UPLOAD_BASE = "https://reticulum.thraxil.org/"
 ALLOWED_HOSTS += ['.thraxil.org']  # noqa
