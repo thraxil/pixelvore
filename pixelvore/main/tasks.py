@@ -33,7 +33,8 @@ def ingest_image(image_id, url):
     imgobj.seek(0)
 
     files = {'image': ("image" + ext, imgobj)}
-    r = requests.post(settings.RETICULUM_UPLOAD_BASE, files=files, verify=False)
+    r = requests.post(settings.RETICULUM_UPLOAD_BASE, files=files,
+                      verify=False)
     rhash = loads(r.text)["hash"]
     print " uploaded to reticulum %s" % rhash
     models.reticulum_save_image(image_id, rhash, ext)
