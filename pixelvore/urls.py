@@ -1,21 +1,26 @@
-from django.conf.urls import patterns, include
+import django.views.static
+
+from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from pixelvore.main.feeds import LatestImagesFeed, RandomImagesFeed
+from pixelvore.main.views import (
+    index, scroll, import_url, tag_index, tag, random_image, image
+)
 admin.autodiscover()
 
-urlpatterns = patterns(
-    '',
-    (r'^$', 'pixelvore.main.views.index'),
-    (r'smoketest/', include('smoketest.urls')),
-    (r'^feeds/newest/$', LatestImagesFeed()),
-    (r'^feeds/random/$', RandomImagesFeed()),
-    (r'^scroll/(?P<offset>\d+)/$', 'pixelvore.main.views.scroll'),
-    (r'^import/$', 'pixelvore.main.views.import_url'),
-    (r'^tag/$', 'pixelvore.main.views.tag_index'),
-    (r'^tag/(?P<tag>[^/]+)/$', 'pixelvore.main.views.tag'),
-    (r'^random/$', 'pixelvore.main.views.random_image'),
-    (r'^image/(?P<image_id>[^/]+)/$', 'pixelvore.main.views.image'),
-    (r'^uploads/(?P<path>.*)$', 'django.views.static.serve',
-     {'document_root': settings.MEDIA_ROOT}),
-)
+
+urlpatterns = [
+    url(r'^$', index),
+    url(r'smoketest/', include('smoketest.urls')),
+    url(r'^feeds/newest/$', LatestImagesFeed()),
+    url(r'^feeds/random/$', RandomImagesFeed()),
+    url(r'^scroll/(?P<offset>\d+)/$', scroll),
+    url(r'^import/$', import_url),
+    url(r'^tag/$', tag_index),
+    url(r'^tag/(?P<tag>[^/]+)/$', tag),
+    url(r'^random/$', random_image),
+    url(r'^image/(?P<image_id>[^/]+)/$', image),
+    url(r'^uploads/(?P<path>.*)$', django.views.static.serve,
+        {'document_root': settings.MEDIA_ROOT}),
+]
