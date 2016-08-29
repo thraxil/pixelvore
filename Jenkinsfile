@@ -98,7 +98,7 @@ try {
     if (opbeat) {
         node {
             stage "Opbeat"
-            withCredentials([[$class: 'StringBinding', credentialsId : APP + '-opbeat', variable: 'OPBEAT_TOKEN', ]]) {
+            withCredentials([[$class: 'StringBinding', credentialsId : 'opbeat-secret', variable: 'OPBEAT_TOKEN', ]]) {
                 sh '''curl https://intake.opbeat.com/api/v1/organizations/${OPBEAT_ORG}/apps/${OPBEAT_APP}/releases/ \
        -H "Authorization: Bearer ${OPBEAT_TOKEN}" \
        -d rev=`git log -n 1 --pretty=format:%H` \
