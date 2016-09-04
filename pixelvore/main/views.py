@@ -1,6 +1,5 @@
-from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 import pixelvore.main.models as models
 import pixelvore.main.tasks as tasks
 from utils import parse_tags
@@ -13,24 +12,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import random
 
 
-class rendered_with(object):
-    def __init__(self, template_name):
-        self.template_name = template_name
-
-    def __call__(self, func):
-        def rendered_func(request, *args, **kwargs):
-            items = func(request, *args, **kwargs)
-            if isinstance(items, dict):
-                return render_to_response(
-                    self.template_name, items,
-                    context_instance=RequestContext(request))
-            else:
-                return items
-
-        return rendered_func
-
-
-@rendered_with("main/index.html")
 def index(request):
     limit = int(request.GET.get('limit', '10'))
     offset = int(request.GET.get('offset', '0'))
@@ -45,10 +26,10 @@ def index(request):
     for i in next_page_images:
         i.offset = offset
         offset += 1
-    return dict(images=images, next_page_images=next_page_images)
+    return render(request, "main/index.html",
+                  dict(images=images, next_page_images=next_page_images))
 
 
-@rendered_with("main/scroll.html")
 def scroll(request, offset):
     limit = int(request.GET.get('limit', '10'))
     offset = int(offset) + 1
@@ -63,12 +44,13 @@ def scroll(request, offset):
     for i in next_page_images:
         i.offset = offset
         offset += 1
-    return dict(images=images, next_page_images=next_page_images)
+    return render(request, "main/scroll.html",
+                  dict(images=images, next_page_images=next_page_images))
 
 
-@rendered_with("main/tag_index.html")
 def tag_index(request):
-    return dict(tags=models.get_all_tags())
+    return render(request, "main/tag_index.html",
+                  dict(tags=models.get_all_tags()))
 
 
 def get_single_tag(tag):
@@ -83,7 +65,6 @@ def get_single_tag(tag):
     return r.first()
 
 
-@rendered_with("main/tag.html")
 def tag(request, tag):
     t = get_single_tag(tag)
     paginator = Paginator(t.imagetag_set.all(), 100)
@@ -94,21 +75,19 @@ def tag(request, tag):
         images = paginator.page(1)
     except EmptyPage:
         images = paginator.page(paginator.num_pages)
-    return dict(images=images, tag=t)
+    return render(request, "main/tag.html", dict(images=images, tag=t))
 
 
-@rendered_with("main/image.html")
 def image(request, image_id):
     image = get_object_or_404(models.Image, id=image_id)
-    return dict(image=image)
+    return render(request, "main/image.html", dict(image=image))
 
 
-@rendered_with("main/image.html")
 def random_image(request):
     cnt = models.Image.objects.all().count()
     i = random.randint(0, cnt)
     image = models.Image.objects.all()[i]
-    return dict(image=image)
+    return render(request, "main/image.html", dict(image=image))
 
 
 def get_width(i):
@@ -151,13 +130,13 @@ def import_url_form(request):
     url = request.GET.get('url', '')
     url = url.replace(" ", "%20").replace("+", "%20")
     if not url:
-        return dict()
+        return render(request, "main/import.html", dict())
     r = requests.get(url, verify=False)
     if r.status_code != 200:
         return HttpResponse("couldn't fetch it. sorry")
 
     if r.headers['content-type'].startswith('image/'):
-        return dict(url=url)
+        return render(request, "main/import.html", dict(url=url))
     elif r.headers['content-type'].startswith('text/html'):
         tree = BeautifulSoup(r.text)
         images = [fix_base_path(i, url) for i in tree.findAll('img')
@@ -165,14 +144,14 @@ def import_url_form(request):
         image_links = [fix_link_base_path(i, url)
                        for i in tree.findAll('a')
                        if is_image_link(i)]
-        return dict(html=True, images=images, links=image_links)
+        return render(request, "main/import.html",
+                      dict(html=True, images=images, links=image_links))
     else:
         return HttpResponse(
             "unknown content-type: %s" % r.headers['content-type'])
 
 
 @transaction.non_atomic_requests
-@rendered_with("main/import.html")
 def import_url(request):
     if request.method == "GET":
         return import_url_form(request)
