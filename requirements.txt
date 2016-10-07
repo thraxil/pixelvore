@@ -8,9 +8,9 @@ amqp==2.1.0
 billiard==3.5.0.1
 amqplib==1.0.2
 anyjson==0.3.3
-kombu==3.0.36
+kombu==3.0.37
 django-picklefield==0.3.2
-pyparsing==2.1.9
+pyparsing==2.1.10
 celery==3.1.24
 django-celery==3.1.17
 poster==0.8.1
