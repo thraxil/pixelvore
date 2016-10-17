@@ -33,7 +33,7 @@ configparser==3.5.0
 flake8==3.0.4
 statsd==3.2.1
 gunicorn==19.6.0
-boto==2.42.0
+boto==2.43.0
 sqlparse==0.2.1
 opbeat==3.4.0
 
