@@ -106,13 +106,15 @@ def width_parse(w):
 
 
 def fix_base_path(image, base_url):
-    if not image['src'].startswith("http://"):
+    if (not image['src'].startswith("http://")
+            and not image['src'].startswith("https://")):
         image['src'] = urlparse.urljoin(base_url, image['src'])
     return image
 
 
 def fix_link_base_path(link, base_url):
-    if not link['href'].startswith("http://"):
+    if not (not link['href'].startswith("http://")
+            and not image['href'].startswith("https://")):
         link['href'] = urlparse.urljoin(base_url, link['href'])
     return link
 
