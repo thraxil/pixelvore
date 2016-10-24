@@ -113,14 +113,14 @@ def fix_base_path(image, base_url):
 
 
 def fix_link_base_path(link, base_url):
-    if not (not link['href'].startswith("http://")
-            and not image['href'].startswith("https://")):
+    if (not link['href'].startswith("http://")
+            and not link['href'].startswith("https://")):
         link['href'] = urlparse.urljoin(base_url, link['href'])
     return link
 
 
 def is_image_link(link):
-    if 'href' not in link:
+    if not link.has_attr('href'):
         return False
     return link['href'].lower().endswith(".jpg") or \
         link['href'].lower().endswith(".jpeg") or \
@@ -141,9 +141,10 @@ def import_url_form(request):
         return render(request, "main/import.html", dict(url=url))
     elif r.headers['content-type'].startswith('text/html'):
         tree = BeautifulSoup(r.text)
-        images = [fix_base_path(i, url) for i in tree.findAll('img')
+        images = [{'src': fix_base_path(i, url)['src']}
+                  for i in tree.findAll('img')
                   if get_width(i) > 75]
-        image_links = [fix_link_base_path(i, url)
+        image_links = [{'href': fix_link_base_path(i, url)['href']}
                        for i in tree.findAll('a')
                        if is_image_link(i)]
         return render(request, "main/import.html",
