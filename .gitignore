@@ -3,3 +3,4 @@ ve
 *.pyc
 .coverage
 wheelhouse
+celerybeat-schedule
