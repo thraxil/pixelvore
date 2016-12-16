@@ -15,7 +15,7 @@ kombu==4.0.1
 django-picklefield==0.3.2
 
 pyparsing==2.1.10
-celery==4.0.1
+celery==4.0.2
 
 poster==0.8.1
 html5lib==0.999999999
