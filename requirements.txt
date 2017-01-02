@@ -19,7 +19,7 @@ celery==4.0.2
 
 poster==0.8.1
 html5lib==0.999999999
-beautifulsoup4==4.5.2
+beautifulsoup4==4.5.3
 psycopg2==2.6.2
 requests==2.12.4
 coverage==4.3
