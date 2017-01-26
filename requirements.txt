@@ -2,7 +2,7 @@ Django==1.10.5
 six==1.10.0
 python-dateutil==2.6.0
 
-Markdown==2.6.7
+Markdown==2.6.8
 pytz==2016.10
 
 vine==1.1.3
