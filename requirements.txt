@@ -36,7 +36,7 @@ flake8==3.3.0
 statsd==3.2.1
 gunicorn==19.6.0
 boto==2.46.1
-sqlparse==0.2.2
+sqlparse==0.2.3
 opbeat==3.5.2
 
 django-statsd-mozilla==0.3.16
