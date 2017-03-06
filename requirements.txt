@@ -14,7 +14,7 @@ anyjson==0.3.3
 kombu==4.0.2
 django-picklefield==0.3.2
 
-pyparsing==2.1.10
+pyparsing==2.2.0
 celery==4.0.2
 
 poster==0.8.1
