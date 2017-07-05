@@ -1,0 +1,39 @@
+version: '2'
+services:
+  db:
+    image: postgres
+  rabbitmq:
+    image: rabbitmq
+  web:
+    image: thraxil/pixelvore
+    environment:
+      - APP=pixelvore
+      - SECRET_KEY=dummy-secret-key
+      - SETTINGS=settings_compose
+    command: manage runserver 0.0.0.0:8000
+    volumes:
+      - .:/app/
+    ports:
+      - "8000:8000"
+    links:
+      - db
+      - rabbitmq
+    depends_on:
+      - db
+      - rabbitmq
+  celery:
+    image: thraxil/pixelvore
+    command: worker
+    environment:
+      - APP=pixelvore
+      - SECRET_KEY=dummy-secret-key
+      - SETTINGS=settings_compose
+      - C_FORCE_ROOT=true
+    volumes:
+      - .:/app/
+    links:
+      - db
+      - rabbitmq
+    depends_on:
+      - db
+      - rabbitmq

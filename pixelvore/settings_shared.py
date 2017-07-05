@@ -3,6 +3,7 @@ import os.path
 from thraxilsettings.shared import common
 
 app = 'pixelvore'
+project = app
 base = os.path.dirname(__file__)
 
 locals().update(common(app=app, base=base))
