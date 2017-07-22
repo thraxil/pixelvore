@@ -20,7 +20,7 @@ celery==4.0.2
 poster==0.8.1
 html5lib==0.999999999
 beautifulsoup4==4.6.0
-psycopg2==2.7.1
+psycopg2==2.7.2
 
 chardet==3.0.4
 idna==2.5
