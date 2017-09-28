@@ -2,11 +2,11 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 import pixelvore.main.models as models
 import pixelvore.main.tasks as tasks
-from utils import parse_tags
+from .utils import parse_tags
 import requests
 from bs4 import BeautifulSoup
 import re
-import urlparse
+import urllib.parse as urlparse
 from django.db import transaction
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import random

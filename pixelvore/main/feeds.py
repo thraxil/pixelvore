@@ -1,5 +1,5 @@
 from django.contrib.syndication.views import Feed
-import models
+from .models import Image
 import random
 
 
@@ -9,7 +9,7 @@ class LatestImagesFeed(Feed):
     description = "newest images from pixelvore.thraxil.org"
 
     def items(self):
-        return models.Image.objects.order_by("-created")[:20]
+        return Image.objects.order_by("-created")[:20]
 
     def item_title(self, item):
         return "image %d" % item.id
@@ -26,7 +26,7 @@ class RandomImagesFeed(Feed):
     description = "random images from pixelvore.thraxil.org"
 
     def items(self):
-        q = models.Image.objects.all()
+        q = Image.objects.all()
         count = q.count()
         offsets = [random.randint(0, count) for r in range(10)]
         for offset in offsets:

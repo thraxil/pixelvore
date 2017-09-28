@@ -1,5 +1,5 @@
 # flake8: noqa
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from django.utils.functional import wraps
 
 
@@ -17,7 +17,7 @@ def parse_tags(tagstring):
     if not tagstring:
         return []
 
-    tagstring = force_unicode(tagstring)
+    tagstring = force_text(tagstring)
 
     # Special case - if there are no commas or double quotes in the
     # input, we don't *do* a recall... I mean, we know we only need to

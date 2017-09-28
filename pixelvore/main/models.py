@@ -77,7 +77,6 @@ def reticulum_save_image(image_id, ahash, ext):
 def load_everything(filename):
     d = loads(open(filename, "r").read())
     for s in d['images']:
-        print s['url'], s['created']
         image = Image.objects.create(url=s['url'], created=s['created'])
         for tag in s['tags']:
             if not tag:
@@ -88,4 +87,3 @@ def load_everything(filename):
                 continue
             (t, created) = Tag.objects.get_or_create(slug=tagslug, tag=tag)
             (it, created) = ImageTag.objects.get_or_create(image=image, tag=t)
-        print "finished %s" % s['url']

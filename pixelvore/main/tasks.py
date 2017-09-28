@@ -2,14 +2,14 @@ import pixelvore.main.models as models
 from celery.decorators import task
 import requests
 from django.conf import settings
-import cStringIO
+from io import StringIO as cStringIO
 import re
 from json import loads
 
 
 @task(ignore_result=True)
 def ingest_image(image_id, url):
-    print "ingesting %s" % url
+    print("ingesting %s" % url)
     if " " in url:
         url = url.replace(" ", "%20")
     filename = url.split("/")[-1]
@@ -36,5 +36,5 @@ def ingest_image(image_id, url):
     r = requests.post(settings.RETICULUM_UPLOAD_BASE, files=files,
                       verify=False)
     rhash = loads(r.text)["hash"]
-    print " uploaded to reticulum %s" % rhash
+    print("uploaded to reticulum %s" % rhash)
     models.reticulum_save_image(image_id, rhash, ext)

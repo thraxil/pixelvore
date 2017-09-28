@@ -19,7 +19,7 @@ class Command(BaseCommand):
             apomixis_url = (
                 "http://apomixis.thraxil.org/image/%s/full/%d%s"
                 % (i.ahash, i.id, i.ext))
-            print apomixis_url
+            print(apomixis_url)
             tmpfilename = "/tmp/temp" + i.ext
             os.system("wget %s -O %s" % (apomixis_url, tmpfilename))
             files = {'image': ("image.jpg",
@@ -28,9 +28,9 @@ class Command(BaseCommand):
             r = requests.post(RETICULUM_BASE, files=files)
             rhash = loads(r.text)["hash"]
             if i.ahash != rhash:
-                print "hash changed!"
-                print i.ahash, rhash
+                print("hash changed!")
+                print(i.ahash, rhash)
                 i.ahash = rhash
                 i.save()
-            print "moved %d of %d" % (cnt, total)
+            print("moved %d of %d" % (cnt, total))
             cnt += 1

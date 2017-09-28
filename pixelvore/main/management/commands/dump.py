@@ -7,4 +7,4 @@ class Command(BaseCommand):
     help = ''
 
     def handle(self, *args, **options):
-        print dump_everything()
+        print(dump_everything())
