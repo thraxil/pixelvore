@@ -5,7 +5,6 @@ WORKDIR /app
 COPY . /app/
 RUN VE=/ve/ MANAGE="/ve/bin/python3 manage.py" NODE_MODULES=/node/node_modules make all
 EXPOSE 8000
-ADD docker-run.sh /run.sh
 ENV APP pixelvore
 ENTRYPOINT ["/run.sh"]
 CMD ["run"]
