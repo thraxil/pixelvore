@@ -176,7 +176,7 @@ def import_url(request):
             for url in urls:
                 image_id = models.create_image(url=url, tags=tags)
                 pairs.append((image_id, url))
-        except:
+        except:  # noqa: E722
             raise
         else:
             for (image_id, url) in pairs:
