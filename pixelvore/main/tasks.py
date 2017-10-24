@@ -23,7 +23,7 @@ def ingest_image(image_id, url):
     ext = ".jpg"
     try:
         ext = "." + filename.split(".")[-1].lower()
-    except:
+    except:  # noqa: E722
         # bad filename
         pass
 
