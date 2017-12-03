@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
             name='ImageTag',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('image', models.ForeignKey(to='main.Image')),
+                ('image', models.ForeignKey(to='main.Image', on_delete=models.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -39,6 +39,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='imagetag',
             name='tag',
-            field=models.ForeignKey(to='main.Tag'),
+            field=models.ForeignKey(to='main.Tag', on_delete=models.CASCADE),
         ),
     ]
