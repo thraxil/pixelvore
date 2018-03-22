@@ -1,6 +1,7 @@
 # flake8: noqa
 from .settings_shared import *
 from thraxilsettings.docker import common
+import os
 import os.path
 
 app = 'pixelvore'
@@ -17,3 +18,10 @@ locals().update(
     ))
 
 CELERY_BROKER_URL = os.environ['BROKER_URL']
+
+RAVEN_DSN = os.environ.get('RAVEN_DSN', None)
+
+if RAVEN_DSN:
+    RAVEN_CONFIG = {
+        'dsn': RAVEN_DSN,
+    }

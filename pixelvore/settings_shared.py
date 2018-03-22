@@ -10,6 +10,7 @@ locals().update(common(app=app, base=base))
 
 INSTALLED_APPS += [  # noqa
     'pixelvore.main',
+    'raven.contrib.django.raven_compat',
 ]
 CELERYD_CONCURRENCY = 4
 
