@@ -18,10 +18,3 @@ locals().update(
     ))
 
 CELERY_BROKER_URL = os.environ['BROKER_URL']
-
-RAVEN_DSN = os.environ.get('RAVEN_DSN', None)
-
-if RAVEN_DSN:
-    RAVEN_CONFIG = {
-        'dsn': RAVEN_DSN,
-    }
