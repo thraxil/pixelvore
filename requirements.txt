@@ -1,6 +1,6 @@
 Django==2.0.3
 six==1.11.0
-python-dateutil==2.7.1
+python-dateutil==2.7.2
 
 Markdown==2.6.11
 pytz==2018.3
