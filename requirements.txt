@@ -42,7 +42,7 @@ configparser==3.5.0
 flake8==3.5.0
 statsd==3.2.2
 gunicorn==19.8.1
-boto==2.48.0
+boto==2.49.0
 sqlparse==0.2.4
 raven==6.9.0
 
