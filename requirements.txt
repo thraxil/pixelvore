@@ -18,7 +18,7 @@ pyparsing==2.2.0
 celery==4.2.1
 
 html5lib==1.0.1
-beautifulsoup4==4.6.0
+beautifulsoup4==4.6.1
 psycopg2-binary==2.7.5
 
 chardet==3.0.4
