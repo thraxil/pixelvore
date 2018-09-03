@@ -12,7 +12,7 @@ billiard==3.5.0.4
 amqplib==1.0.2
 anyjson==0.3.3
 kombu==4.2.1
-django-picklefield==1.0.0
+django-picklefield==1.1.0
 
 pyparsing==2.2.0
 celery==4.2.1
