@@ -3,7 +3,7 @@ six==1.11.0
 python-dateutil==2.7.3
 
 Markdown==3.0
-pytz==2018.5
+pytz==2018.6
 
 vine==1.1.4
 amqp==2.3.2
