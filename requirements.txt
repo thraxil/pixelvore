@@ -44,7 +44,7 @@ statsd==3.3.0
 gunicorn==19.9.0
 boto==2.49.0
 sqlparse==0.2.4
-raven==6.9.0
+raven==6.10.0
 
 django-statsd-mozilla==0.4.0
 
