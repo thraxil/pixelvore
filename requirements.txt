@@ -5,7 +5,7 @@ python-dateutil==2.7.5
 Markdown==3.0
 pytz==2018.7
 
-vine==1.1.4
+vine==1.2.0
 amqp==2.3.2
 
 billiard==3.5.0.5
