@@ -1,25 +1,25 @@
-Django==2.1.5
+Django==2.1.7
 six==1.12.0
-python-dateutil==2.7.5
+python-dateutil==2.8.0
 
 Markdown==3.0.1
 pytz==2018.9
 
 vine==1.2.0
-amqp==2.3.2
+amqp==2.4.1
 
-billiard==3.5.0.5
+billiard==3.6.0.0
 amqplib==1.0.2
 anyjson==0.3.3
-kombu==4.2.2.post1
+kombu==4.3.0
 django-picklefield==2.0
 
-pyparsing==2.3.0
+pyparsing==2.3.1
 celery==4.2.1
 
 html5lib==1.0.1
 beautifulsoup4==4.7.1
-psycopg2-binary==2.7.6.1
+psycopg2-binary==2.7.7
 
 chardet==3.0.4
 idna==2.8
@@ -31,15 +31,15 @@ requests==2.21.0
 coverage==4.5.2
 
 pep8==1.7.1
-pyflakes==2.0.0
+pyflakes==2.1.0
 
-pycodestyle==2.4.0
+pycodestyle==2.5.0
 
 mccabe==0.6.1
 
 enum34==1.1.6
-configparser==3.5.0
-flake8==3.6.0
+configparser==3.7.1
+flake8==3.7.5
 statsd==3.3.0
 gunicorn==19.9.0
 boto==2.49.0
