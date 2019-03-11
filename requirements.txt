@@ -6,12 +6,12 @@ Markdown==3.0.1
 pytz==2018.9
 
 vine==1.2.0
-amqp==2.4.0
+amqp==2.4.2
 
 billiard==3.6.0.0
 amqplib==1.0.2
 anyjson==0.3.3
-kombu==4.2.2.post1
+kombu==4.4.0
 django-picklefield==2.0
 
 pyparsing==2.3.1
@@ -28,18 +28,18 @@ certifi==2019.3.9
 
 requests==2.21.0
 
-coverage==4.5.2
+coverage==4.5.3
 
 pep8==1.7.1
 pyflakes==2.1.1
 
-pycodestyle==2.4.0
+pycodestyle==2.5.0
 
 mccabe==0.6.1
 
 enum34==1.1.6
-configparser==3.7.3
-flake8==3.6.0
+configparser==3.8.0
+flake8==3.7.7
 statsd==3.3.0
 gunicorn==19.9.0
 boto==2.49.0
@@ -53,7 +53,7 @@ django-markwhat==1.6.1
 django-storages==1.7.1
 
 django-cacheds3storage==0.1.2
-django-appconf==1.0.2
+django-appconf==1.0.3
 django-compressor==2.2
 django-smoketest==1.1.0
 django-debug-toolbar==1.11
