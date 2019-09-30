@@ -11,7 +11,7 @@ amqp==2.5.2
 billiard==3.6.1.0
 amqplib==1.0.2
 anyjson==0.3.3
-kombu==4.6.4
+kombu==4.6.5
 django-picklefield==2.0
 
 pyparsing==2.4.2
