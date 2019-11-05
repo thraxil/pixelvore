@@ -14,7 +14,7 @@ anyjson==0.3.3
 kombu==4.6.5
 django-picklefield==2.0
 
-pyparsing==2.4.2
+pyparsing==2.4.3
 celery==4.3.0
 
 html5lib==1.0.1
