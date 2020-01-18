@@ -15,10 +15,11 @@ kombu==4.6.7
 django-picklefield==2.0
 
 pyparsing==2.4.6
-celery==4.3.0
+
+celery==4.4.0
 
 html5lib==1.0.1
-beautifulsoup4==4.8.1
+beautifulsoup4==4.8.2
 psycopg2-binary==2.8.4
 
 chardet==3.0.4
@@ -60,9 +61,9 @@ django-cacheds3storage==0.2.1
 django-appconf==1.0.3
 django-compressor==2.3
 django-smoketest==1.1.0
-django-debug-toolbar==1.11
+django-debug-toolbar==2.1
 django-waffle==0.18.0
 django-jenkins==0.110.0
 
-thraxilsettings==3.1.1
+thraxilsettings==3.1.3
 
