@@ -1,5 +1,7 @@
 Django==3.0.2
-six==1.13.0
+
+six==1.14.0
+
 python-dateutil==2.8.1
 
 Markdown==3.0.1 # pyup: <3.1
@@ -14,11 +16,12 @@ anyjson==0.3.3
 kombu==4.6.7
 django-picklefield==2.0
 
-pyparsing==2.4.5
-celery==4.3.0
+pyparsing==2.4.6
+
+celery==4.4.0
 
 html5lib==1.0.1
-beautifulsoup4==4.8.1
+beautifulsoup4==4.8.2
 psycopg2-binary==2.8.4
 
 chardet==3.0.4
@@ -30,7 +33,7 @@ urllib3==1.25.7
 
 requests==2.22.0
 
-coverage==4.5.4
+coverage==5.0.3
 
 pep8==1.7.1
 pyflakes==2.1.1
@@ -58,11 +61,14 @@ django-storages==1.8
 
 django-cacheds3storage==0.2.1
 django-appconf==1.0.3
-django-compressor==2.3
+django-compressor==2.4
 django-smoketest==1.1.0
-django-debug-toolbar==1.11
-django-waffle==0.18.0
+
+django-waffle==0.19.0
+
+django-debug-toolbar==2.1
+
 django-jenkins==0.110.0
 
-thraxilsettings==3.1.1
+thraxilsettings==3.1.3
 
