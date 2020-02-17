@@ -25,7 +25,7 @@ beautifulsoup4==4.8.2
 psycopg2-binary==2.8.4
 
 chardet==3.0.4
-idna==2.8
+idna==2.9
 
 certifi==2019.11.28
 
