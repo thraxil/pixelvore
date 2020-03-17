@@ -18,7 +18,7 @@ django-picklefield==2.1.1
 
 pyparsing==2.4.6
 
-celery==4.4.1
+celery==4.4.2
 
 html5lib==1.0.1
 beautifulsoup4==4.8.2
