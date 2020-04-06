@@ -22,7 +22,7 @@ celery==4.4.2
 
 html5lib==1.0.1
 beautifulsoup4==4.8.2
-psycopg2-binary==2.8.4
+psycopg2-binary==2.8.5
 
 chardet==3.0.4
 idna==2.9
