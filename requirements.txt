@@ -59,7 +59,6 @@ django-markwhat==1.6.2
 
 django-storages==1.8
 
-django-cacheds3storage==0.2.1
 django-appconf==1.0.4
 django-compressor==2.4
 django-smoketest==1.1.0
