@@ -4,12 +4,11 @@ MANAGE ?= ./manage.py
 FLAKE8 ?= $(VE)/bin/flake8
 SYS_PYTHON ?= python3
 PIP ?= $(VE)/bin/pip3
+PIP_VERSION ?= 20.1
 SENTINAL ?= $(VE)/sentinal
-WHEEL_VERSION ?= 0.30.0
 REQUIREMENTS ?= requirements.txt
 VIRTUALENV ?= virtualenv.py
 SUPPORT_DIR ?= requirements/virtualenv_support/
-WHEELHOUSE ?= wheelhouse
 
 JS_FILES ?= media/js/
 TAG ?= latest
