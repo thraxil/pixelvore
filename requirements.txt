@@ -29,7 +29,7 @@ psycopg2-binary==2.8.5
 
 beautifulsoup4==4.9.0
 
-soupsieve==2.0
+soupsieve==2.0.1
 
 chardet==3.0.4
 idna==2.9
