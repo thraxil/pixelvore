@@ -7,12 +7,10 @@ coverage: $(SENTINAL) flake8
 	. $(VE)/bin/activate && $(VE)/bin/coverage run --source='$(APP)' $(MANAGE) test \
 	&& $(VE)/bin/coverage html -d reports --omit='*migrations*,*settings_*,*wsgi*'
 
-$(SENTINAL): $(REQUIREMENTS) $(VIRTUALENV) $(SUPPORT_DIR)*
+$(SENTINAL): $(REQUIREMENTS)
 	rm -rf $(VE)
-	$(SYS_PYTHON) $(VIRTUALENV) --extra-search-dir=$(SUPPORT_DIR) --never-download $(VE)
-	$(PIP) install pip==$(PIP_VERSION)
+	$(SYS_PYTHON) -m venv $(VE)
 	$(PIP) install --requirement $(REQUIREMENTS)
-	$(SYS_PYTHON) $(VIRTUALENV) --relocatable $(VE)
 	touch $(SENTINAL)
 
 flake8: $(SENTINAL)
