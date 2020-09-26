@@ -129,6 +129,7 @@ def is_image_link(link):
 
 
 def import_url_form(request):
+    return HttpResponse("not now")
     url = request.GET.get('url', '')
     url = url.replace(" ", "%20").replace("+", "%20")
     if not url:
@@ -156,6 +157,7 @@ def import_url_form(request):
 
 @transaction.non_atomic_requests
 def import_url(request):
+    return HttpResponse("not now")
     if request.method == "GET":
         return import_url_form(request)
     if request.method == "POST":
