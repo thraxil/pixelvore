@@ -71,7 +71,7 @@ gunicorn==20.0.4
 
 botocore==1.19.38
 
-boto3==1.16.38
+boto3==1.16.39
 
 s3transfer==0.3.3
 sqlparse==0.4.1
