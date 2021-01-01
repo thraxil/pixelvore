@@ -32,7 +32,7 @@ beautifulsoup4==4.9.3
 soupsieve==2.1
 
 chardet==4.0.0
-idna==2.10
+idna==3.0
 
 importlib-metadata==3.3.0
 
