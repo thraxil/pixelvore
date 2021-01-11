@@ -73,7 +73,7 @@ botocore==1.19.51
 
 boto3==1.16.51
 
-s3transfer==0.3.3
+s3transfer==0.3.4
 sqlparse==0.4.1
 raven==6.10.0
 
