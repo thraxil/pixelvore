@@ -11,7 +11,7 @@ Markdown==3.0.1 # pyup: <3.1
 pytz==2021.1
 
 vine==5.0.0
-amqp==5.0.5
+amqp==5.0.6
 
 billiard==3.6.3.0
 amqplib==1.0.2
