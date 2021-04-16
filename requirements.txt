@@ -56,7 +56,7 @@ enum34==1.1.10
 entrypoints==0.3
 
 configparser==5.0.2
-flake8==3.9.0
+flake8==3.9.1
 
 jmespath==0.10.0
 
