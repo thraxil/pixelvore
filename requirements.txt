@@ -69,7 +69,7 @@ zipp==3.4.1
 statsd==3.3.0
 gunicorn==20.1.0
 
-botocore==1.20.62
+botocore==1.20.63
 
 boto3==1.17.62
 
