@@ -1,6 +1,8 @@
+
 .git
 ve
 *.pyc
 reports
 Jenkinsfile
 .github
+deploy
