@@ -89,7 +89,7 @@ django-smoketest==1.1.2
 
 django-waffle==2.2.1
 
-django-debug-toolbar==3.2.1
+django-debug-toolbar==3.2.2
 
 django-jenkins==0.110.0
 
