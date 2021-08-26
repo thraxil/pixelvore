@@ -34,7 +34,7 @@ soupsieve==2.2.1
 chardet==4.0.0
 idna==3.2
 
-importlib-metadata==4.6.4
+importlib-metadata==4.7.1
 
 certifi==2021.5.30
 
